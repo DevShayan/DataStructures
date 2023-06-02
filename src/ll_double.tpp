@@ -182,7 +182,7 @@ template<typename T>
 T LLDouble<T>::deleteNode(T node) {
 
 	if (head == NULL)
-		throw "Cannot delete from empty list.s";
+		throw "Cannot delete from empty list.";
 
 	Node* tmp = head;
 

@@ -53,9 +53,9 @@ ArrayQueue<T>::ArrayQueue(int size, std::initializer_list<T> list) {
 
 
 template <typename T>
-void ArrayQueue<T>::push(T value) {
+void ArrayQueue<T>::enQueue(T value) {
     if ((rear+1)%queueSize == front) {
-        throw "Cannot push in full queue!";
+        throw "Cannot insert in full queue!";
     }
 
 	if (front == -1)
@@ -70,7 +70,7 @@ void ArrayQueue<T>::push(T value) {
 
 
 template <typename T>
-T ArrayQueue<T>::pop() {
+T ArrayQueue<T>::deQueue() {
     if (front == -1) {
         throw "Cannot delete from empty queue!";
     }
@@ -125,7 +125,7 @@ void ArrayQueue<T>::setQueue(int size, std::initializer_list<T> list) {
     queueSize = size;
 
     if (numberOfElements > queueSize) {
-        throw "number of elements should not exeed the size of array!";
+        throw "number of elements should not exeed the size of queue!";
     }
     
     queue = new T[queueSize];

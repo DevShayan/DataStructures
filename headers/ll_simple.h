@@ -14,6 +14,8 @@ class LLSimple {
         };
         Node* head = NULL;
 
+        int numberOfElements = 0;
+
         void insertAfter(Node* ptr, T data);
         T deleteAfter(Node* ptr);
 
@@ -24,18 +26,19 @@ class LLSimple {
         void insertAtLast(T data);
         void insertAfter(T node, T data);
         void insertBefore(T node, T data);
-        T deleteAtFirst();
-        T deleteAtLast();
+        T deleteFirst();
+        T deleteLast();
         T deleteBefore(T node);
         T deleteAfter(T node);
         T deleteMid();
         T deleteNode(T node);
+        void deleteList();
 
         // Getters and Setters
         void setList(std::initializer_list<T> list);
         std::string getListAsString();
+        int getElementCount();
 
-        // Misc
 };
 
 #include "../src/ll_simple.tpp"

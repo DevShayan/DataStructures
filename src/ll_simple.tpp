@@ -8,6 +8,7 @@ LLSimple<T>::LLSimple() {
 
 template<typename T>
 LLSimple<T>::LLSimple(std::initializer_list<T> list) {
+	numberOfElements = list.size();
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}
@@ -26,6 +27,7 @@ void LLSimple<T>::insertAtFirst(T data) {
 		n->next = head;
 		head = n;
 	}
+	numberOfElements++;
 }
 
 template<typename T>
@@ -45,6 +47,7 @@ void LLSimple<T>::insertAtLast(T data) {
 
 		tmp->next = n;
 	}
+	numberOfElements++;
 }
 
 template<typename T>
@@ -83,7 +86,7 @@ void LLSimple<T>::insertBefore(T node, T data) {
 }
 
 template<typename T>
-T LLSimple<T>::deleteAtFirst() {
+T LLSimple<T>::deleteFirst() {
 	if (head == NULL)
 		throw "Cannot delete from empty list!";
 
@@ -92,18 +95,20 @@ T LLSimple<T>::deleteAtFirst() {
 
 	T returnValue = del->data;
 	delete del;
+
+	numberOfElements--;
 	return returnValue;
 }
 
 template<typename T>
-T LLSimple<T>::deleteAtLast() {
+T LLSimple<T>::deleteLast() {
 	if (head == NULL)
 		throw "Cannot delete from empty list!";
 
 	Node* tmp = head;
 
 	if (head->next == NULL)
-		return deleteAtFirst();
+		return deleteFirst();
 
 	while (tmp->next->next != NULL)
 		tmp = tmp->next;
@@ -138,7 +143,7 @@ T LLSimple<T>::deleteBefore(T node) {
 	Node* tmp = head;
 
 	if (tmp->next->data == node)
-		return deleteAtFirst();
+		return deleteFirst();
 
 	while (tmp->next->next != NULL && tmp->next->next->data != node)
 		tmp = tmp->next;
@@ -155,7 +160,7 @@ T LLSimple<T>::deleteMid() {
 		throw "Cannot delete from empty list.s";
 
 	if (head->next == NULL)
-		return deleteAtFirst();
+		return deleteFirst();
 
 	Node* tmp = head;
 	int count = 0;
@@ -183,7 +188,7 @@ T LLSimple<T>::deleteNode(T node) {
 	Node* tmp = head;
 
 	if (head->data == node) {
-		return deleteAtFirst();
+		return deleteFirst();
 	}
 	
 	while (tmp->next != NULL && tmp->next->data != node) {
@@ -196,10 +201,26 @@ T LLSimple<T>::deleteNode(T node) {
 	return deleteAfter(tmp);
 }
 
+template<typename T>
+void LLSimple<T>::deleteList() {
+	Node* tmp = head;
+
+	if (head == NULL)
+		throw "Cannot delete empty list!";
+
+	while (tmp != NULL) {
+		deleteFirst();
+		tmp = head;
+	}
+	numberOfElements = 0;
+}
+
 // Getters and Setters
 
 template<typename T>
 void LLSimple<T>::setList(std::initializer_list<T> list) {
+	deleteList();
+	numberOfElements = list.size();
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}
@@ -224,9 +245,13 @@ std::string LLSimple<T>::getListAsString() {
 			returnValue += std::to_string(tmp->data)+", ";
 		tmp = tmp->next;
 	}
-
-	return returnValue+"]";
 	
+	return returnValue+"]";
+}
+
+template<typename T>
+int LLSimple<T>::getElementCount() {
+	return numberOfElements;
 }
 
 // private
@@ -238,6 +263,7 @@ void LLSimple<T>::insertAfter(Node* ptr, T data) {
 
 	n->next = ptr->next;
 	ptr->next = n;
+	numberOfElements++;
 }
 
 template<typename T>
@@ -246,6 +272,7 @@ T LLSimple<T>::deleteAfter(Node* ptr) {
 	ptr->next = ptr->next->next;
 	T returnValue = del->data;
 	delete del;
+	numberOfElements--;
 	return returnValue;
 }
 

@@ -14,18 +14,18 @@ class ArraySimple {
         int arraySize = 0;
 
         void deleteArray();
-        void mergeSort_recursive(int low, int high);
-        void merge(int low, int mid, int high);
-        int partition(int low, int high);
-        void quickSort_recursive(int low, int high);
+        void mergeSort_recursive(bool sortAscending, int low, int high);
+        void merge(bool sortAscending, int low, int mid, int high);
+        int partition(bool sortAscending, int low, int high);
+        void quickSort_recursive(bool sortAscending, int low, int high);
 
     public:
         ArraySimple();
         ArraySimple(int size);
         ArraySimple(std::initializer_list<T> list);
         ArraySimple(int size, std::initializer_list<T> list);
-        void push(T value, int index);
-        T pop(int index);
+        void insert(T value, int index);
+        T remove(int index);
         int singleLinearSearch(T value);
         int multiLinearSearch(T value);
         int singleBinarySearch(T value);

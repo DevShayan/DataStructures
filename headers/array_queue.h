@@ -22,8 +22,8 @@ class ArrayQueue {
         ArrayQueue(int size);
         ArrayQueue(std::initializer_list<T> list);
         ArrayQueue(int size, std::initializer_list<T> list);
-        void push(T value);
-        T pop();
+        void enQueue(T value);
+        T deQueue();
 
         // Getters and Setters
         void setQueue(int size);

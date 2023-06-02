@@ -52,14 +52,11 @@ ArraySimple<T>::ArraySimple(int size, std::initializer_list<T> list) {
 
 
 template <typename T>
-void ArraySimple<T>::push(T value, int index) {
-    if (numberOfElements == arraySize) {
-        throw "Cannot push in full array!\n";
-    }
-    
-    if (index < lb || index > numberOfElements+lb) {
+void ArraySimple<T>::insert(T value, int index) {
+    if (numberOfElements == arraySize)
+        throw "Cannot insert in full array!\n";
+    if (index < lb || index > numberOfElements+lb)
         throw "Invalid index";
-    }
 
     for (int x=numberOfElements+lb-1; x>=index; x--) {
         arr[x+1] = arr[x];
@@ -70,7 +67,7 @@ void ArraySimple<T>::push(T value, int index) {
 
 
 template <typename T>
-T ArraySimple<T>::pop(int index) {
+T ArraySimple<T>::remove(int index) {
     if (numberOfElements == 0) {
         throw "Cannot delete from empty array!";
     }
@@ -186,7 +183,7 @@ void ArraySimple<T>::bubbleSort(bool sortAscending) {
 
     for (int x=lb; x<numberOfElements+lb-1; x++, last--) {
         for (int y=lb; y<last; y++) {
-            if (arr[y] > arr[y+1]) {
+            if ((sortAscending && arr[y] > arr[y+1]) || (!sortAscending && arr[y] < arr[y+1])) {
                 T tmp = arr[y];
                 arr[y] = arr[y+1];
                 arr[y+1] = tmp;
@@ -202,7 +199,7 @@ void ArraySimple<T>::selectionSort(bool sortAscending) {
 
     for (int x=0; x<numberOfElements-1; x++, startIndex++, minIndex=startIndex-1) {
         for (int y=startIndex; y<numberOfElements+lb; y++) {
-            if (arr[y] < arr[minIndex]) {
+            if ((sortAscending && arr[y] < arr[minIndex]) || (!sortAscending && arr[y] > arr[minIndex])) {
                 minIndex = y;
             }
         }
@@ -223,7 +220,7 @@ void ArraySimple<T>::insertionSort(bool sortAscending) {
         min = arr[endIndex];
 
         int y = endIndex - 1;
-        while (y >= lb && arr[y] > min) {
+        while ((sortAscending && y >= lb && arr[y] > min) || (!sortAscending && y >= lb && arr[y] < min)) {
             arr[y+1] = arr[y];
             y--;
         }
@@ -243,7 +240,7 @@ void ArraySimple<T>::shellSort(bool sortAscending) {
             min = arr[endIndex];
 
             int y = endIndex - gap;
-            while (y >= lb && arr[y] > min) {
+            while ((sortAscending && y >= lb && arr[y] > min) || (!sortAscending && y >= lb && arr[y] < min)) {
                 arr[y + gap] = arr[y];
                 y -= gap;
             }
@@ -299,7 +296,7 @@ void ArraySimple<T>::mergeTwoArrays(ArraySimple arrA, ArraySimple arrB, bool sor
 }
 
 template <typename T>
-void ArraySimple<T>::merge(int low, int mid, int high) {
+void ArraySimple<T>::merge(bool sortAscending, int low, int mid, int high) {
     int arrTmp[high-low+1];
 
     int lPtr = low;
@@ -307,7 +304,7 @@ void ArraySimple<T>::merge(int low, int mid, int high) {
     int arrPtr = lb;
 
     while(lPtr <= mid && rPtr <= high) {
-        if (arr[lPtr] < arr[rPtr])
+        if ((sortAscending && arr[lPtr] < arr[rPtr]) || (!sortAscending && arr[lPtr] > arr[rPtr]))
             arrTmp[arrPtr++] = arr[lPtr++];
         else
             arrTmp[arrPtr++] = arr[rPtr++];
@@ -327,26 +324,26 @@ void ArraySimple<T>::merge(int low, int mid, int high) {
 }
 
 template <typename T>
-void ArraySimple<T>::mergeSort_recursive(int low, int high) {
+void ArraySimple<T>::mergeSort_recursive(bool sortAscending, int low, int high) {
     if (low >= high) return;
 
     int mid = (low + high) / 2;
-    mergeSort_recursive(low, mid);
-    mergeSort_recursive(mid+1, high);
-    merge(low, mid, high);
+    mergeSort_recursive(sortAscending, low, mid);
+    mergeSort_recursive(sortAscending, mid+1, high);
+    merge(sortAscending, low, mid, high);
 }
 
 template <typename T>
 void ArraySimple<T>::mergeSort(bool sortAscending) {
-    mergeSort_recursive(lb, numberOfElements+lb-1);
+    mergeSort_recursive(sortAscending, lb, numberOfElements+lb-1);
 }
 
 template <typename T>
-int ArraySimple<T>::partition(int low, int high) {
+int ArraySimple<T>::partition(bool sortAscending, int low, int high) {
     int pivotIndex = high;
     int i = low - 1;
     for (int x=low; x<high; x++) {
-        if (arr[x] <= arr[pivotIndex]) {
+        if ((sortAscending && arr[x] <= arr[pivotIndex]) || (!sortAscending && arr[x] >= arr[pivotIndex])) {
             i++;
             T tmp = arr[x];
             arr[x] = arr[i];
@@ -361,17 +358,17 @@ int ArraySimple<T>::partition(int low, int high) {
 }
 
 template <typename T>
-void ArraySimple<T>::quickSort_recursive(int low, int high) {
+void ArraySimple<T>::quickSort_recursive(bool sortAscending, int low, int high) {
     if (low >= high) return;
 
-    int pivot = partition(low, high);
-    quickSort_recursive(low, pivot-1);
-    quickSort_recursive(pivot+1, high);
+    int pivot = partition(sortAscending, low, high);
+    quickSort_recursive(sortAscending, low, pivot-1);
+    quickSort_recursive(sortAscending, pivot+1, high);
 }
 
 template <typename T>
 void ArraySimple<T>::quickSort(bool sortAscending) {
-    quickSort_recursive(lb, numberOfElements+lb-1);
+    quickSort_recursive(sortAscending, lb, numberOfElements+lb-1);
 }
 
 

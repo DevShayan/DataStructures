@@ -25,15 +25,12 @@ void TUI::start() {
     while (selection != 'x' || selection != 'X') {
         system(clear);
         std::cout << magenta << projectTitle << clearTextColor;
-        std::cout << yellow << "BSCS 3A (Spring 2023)\n";
-        std::cout << "Shayan Ahmed Khan\n";
-        std::cout << "Assignment # 1 (Array)\n\n" << clearTextColor;
         std::cout << "1. Queue\n";
         std::cout << "2. Stack\n";
         std::cout << "3. Array\n";
-        std::cout << "4. Linked List\n";
-        std::cout << "X. Exit\n\n";
-        std::cout << "Select a data structure: ";
+        std::cout << "4. Linked List\n\n";
+        std::cout << magenta << "X. Exit\n\n" << clearTextColor;
+        std::cout << "Select an option: ";
         std::cin >> selection;
 
         switch (selection) {
@@ -47,7 +44,7 @@ void TUI::start() {
                 array();
                 break;
             case '4':
-                // linkedList();
+                linkedList();
                 break;
             case 'x': case 'X':
                 system(clear);

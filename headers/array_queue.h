@@ -15,7 +15,6 @@ class ArrayQueue {
 		int front = -1;
 		int rear = -1;
 
-        void deleteQueue();
 
     public:
         ArrayQueue();
@@ -37,6 +36,7 @@ class ArrayQueue {
 
         // Misc
         void clearQueue();
+        void deleteQueue();
 };
 
 #include "../src/array_queue.tpp"

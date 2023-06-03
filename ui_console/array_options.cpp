@@ -253,7 +253,7 @@ void TUI::sort() {
 }
 
 void TUI::newArray() {
-    printTopInfo("ARRAY -> NEW ARRAY", arr.getArrayAsString().c_str());
+    printTopInfo("ARRAY -> NEW ARRAY", "-");
     std::cout << "Enter size of array: ";
     std::cin >> size;
 
@@ -264,7 +264,7 @@ void TUI::newArray() {
 
     char initialize = '|';
 
-    printTopInfo("ARRAY -> NEW ARRAY", arr.getArrayAsString().c_str());
+    printTopInfo("ARRAY -> NEW ARRAY", "-");
     std::cout << "Initialize array with random values? [y/n]: ";
     std::cin >> initialize;
 

@@ -1,22 +1,23 @@
-#ifndef STACKLL_H
-#define STACKLL_H
+#ifndef LL_DOUBLE_STACK_H
+#define LL_DOUBLE_STACK_H
 
 #include <iostream>
 #include <initializer_list>
 
 template <typename T>
-class LLStack {
+class LLDoubleStack {
     private:
         struct Node {
             T data;
             Node* next;
+            Node* prev;
         };
         Node* top = NULL;
         int numberOfElements = 0;
 
     public:
-        LLStack();
-        LLStack(std::initializer_list<T> list);
+        LLDoubleStack();
+        LLDoubleStack(std::initializer_list<T> list);
         void push(T data);
         T pop();
         void deleteStack();
@@ -27,6 +28,6 @@ class LLStack {
         int getElementCount();
 };
 
-#include "../src/ll_stack.tpp"
+#include "../src/ll_double_stack.tpp"
 
 #endif

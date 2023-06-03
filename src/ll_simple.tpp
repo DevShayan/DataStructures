@@ -18,15 +18,9 @@ template<typename T>
 void LLSimple<T>::insertAtFirst(T data) {
 	Node* n = new Node();
 	n->data = data;
-	n->next = NULL;
+	n->next = head;
 
-	if (head == NULL) {
-		head = n;
-	}
-	else {
-		n->next = head;
-		head = n;
-	}
+	head = n;
 	numberOfElements++;
 }
 
@@ -272,6 +266,7 @@ T LLSimple<T>::deleteAfter(Node* ptr) {
 	ptr->next = ptr->next->next;
 	T returnValue = del->data;
 	delete del;
+	
 	numberOfElements--;
 	return returnValue;
 }

@@ -1,13 +1,13 @@
-#ifndef LL_QUEUE_TPP
-#define LL_QUEUE_TPP
+#ifndef LL_DOUBLE_QUEUE_TPP
+#define LL_DOUBLE_QUEUE_TPP
 
 template <typename T>
-LLQueue<T>::LLQueue() {
+LLDoubleQue<T>::LLDoubleQue() {
     //
 }
 
 template<typename T>
-LLQueue<T>::LLQueue(std::initializer_list<T> list) {
+LLDoubleQue<T>::LLDoubleQue(std::initializer_list<T> list) {
 	numberOfElements = list.size();
 	for (const auto& element : list) {
 		enQueue(element);
@@ -15,23 +15,25 @@ LLQueue<T>::LLQueue(std::initializer_list<T> list) {
 }
 
 template <typename T>
-void LLQueue<T>::enQueue(T data) {
+void LLDoubleQue<T>::enQueue(T data) {
     Node* n = new Node();
     n->data = data;
     n->next = NULL;
+	n->prev = NULL;
 
     if (front == NULL) {
         front = rear = n;
     }
     else {
         rear->next = n;
+		n->prev = rear;
         rear = n;
     }
     numberOfElements++;
 }
 
 template <typename T>
-T LLQueue<T>::deQueue() {
+T LLDoubleQue<T>::deQueue() {
     if (front == NULL)
         throw "Cannot dequeue from empty queue!";
 
@@ -42,6 +44,7 @@ T LLQueue<T>::deQueue() {
     }
     else {
         front = front->next;
+		front->prev = NULL;
     }
 
     T returnValue = del->data;
@@ -52,7 +55,7 @@ T LLQueue<T>::deQueue() {
 }
 
 template<typename T>
-void LLQueue<T>::deleteQueue() {
+void LLDoubleQue<T>::deleteQueue() {
 	if (front == NULL)
 		throw "Cannot delete empty queue!";
 
@@ -67,7 +70,7 @@ void LLQueue<T>::deleteQueue() {
 // Getters and setters
 
 template<typename T>
-void LLQueue<T>::setQueue(std::initializer_list<T> list) {
+void LLDoubleQue<T>::setQueue(std::initializer_list<T> list) {
 	deleteQueue();
 	numberOfElements = list.size();
 	for (const auto& element : list) {
@@ -76,7 +79,7 @@ void LLQueue<T>::setQueue(std::initializer_list<T> list) {
 }
 
 template<typename T>
-std::string LLQueue<T>::getQueueAsString() {
+std::string LLDoubleQue<T>::getQueueAsString() {
 	Node* tmp = front;
 	std::string returnValue = "";
 
@@ -99,7 +102,7 @@ std::string LLQueue<T>::getQueueAsString() {
 }
 
 template<typename T>
-int LLQueue<T>::getElementCount() {
+int LLDoubleQue<T>::getElementCount() {
 	return numberOfElements;
 }
 

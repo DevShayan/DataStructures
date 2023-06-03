@@ -1,28 +1,20 @@
 #include "tui.h"
 
-void TUI::linkedList() {
-	if (ll.getElementCount() == 0) {
-		newList();
-	}
-
-    while (selection != 'x' || selection != 'X') {
-        printTopInfo("LINKED LIST", ll.getListAsString().c_str());
-		std::cout << "1. Insert\n"
-				<< "2. Delete\n"
-				<< "3. New list\n\n"
+void TUI::linkedListMenu() {
+	while (selection != 'x' || selection != 'X') {
+        printTopInfo("LINKED LIST", "-");
+		std::cout << "1. Single\n"
+				<< "2. Double\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
 
         switch (selection) {
             case '1':
-                llInsert();
+                linkedList(ll);
                 break;
             case '2':
-                llDelete();
-                break;
-            case '3':
-                newList();
+                linkedList(dll);
                 break;
             case 'x': case 'X':
                 system(clear);
@@ -33,9 +25,61 @@ void TUI::linkedList() {
     }
 }
 
-void TUI::llInsert() {
+template <typename O>
+void TUI::linkedList(O& list) {
+	if (list.getElementCount() == 0) {
+		newList(list);
+	}
+	std::string listName;
+
+	if (typeid(list) == typeid(ll)) {
+		listName = "LINKED LIST -> SINGLE";
+	}
+	else if (typeid(list) == typeid(dll)) {
+		listName = "LINKED LIST -> DOUBLE";
+	}
+
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("LINKED LIST -> INSERT", ll.getListAsString().c_str());
+        printTopInfo(listName.c_str(), list.getListAsString().c_str());
+		std::cout << "1. Insert\n"
+				<< "2. Delete\n"
+				<< "3. New list\n\n"
+                << magenta << "X. Back\n\n" << clearTextColor
+				<< "Select an operation: ";
+        std::cin >> selection;
+
+        switch (selection) {
+            case '1':
+                llInsert(list);
+                break;
+            case '2':
+                llDelete(list);
+                break;
+            case '3':
+                newList(list);
+                break;
+            case 'x': case 'X':
+                system(clear);
+                return;
+            default:
+                invalidInput("Invalid selection!");
+        }
+    }
+}
+
+template <typename O>
+void TUI::llInsert(O& list) {
+	std::string listName, str;
+
+	if (typeid(list) == typeid(ll)) {
+		listName = "LINKED LIST -> SINGLE -> INSERT";
+	}
+	else if (typeid(list) == typeid(dll)) {
+		listName = "LINKED LIST -> DOUBLE -> INSERT";
+	}
+
+    while (selection != 'x' || selection != 'X') {
+        printTopInfo(listName.c_str(), list.getListAsString().c_str());
 		std::cout << "1. At first\n"
 				<< "2. At last\n"
 				<< "3. Before node\n"
@@ -47,35 +91,39 @@ void TUI::llInsert() {
 		try {
 			switch (selection) {
 				case '1':
-					printTopInfo("LINKED LIST -> INSERT -> AT FIRST", ll.getListAsString().c_str());
+					str = listName + " -> AR FIRST";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter value to insert: ";
 					std::cin >> input;
-					ll.insertAtFirst(input);
+					list.insertAtFirst(input);
 					break;
 
 				case '2':
-					printTopInfo("LINKED LIST -> INSERT -> AT LAST", ll.getListAsString().c_str());
+					str = listName + " -> AT LAST";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter value to insert: ";
 					std::cin >> input;
-					ll.insertAtLast(input);
+					list.insertAtLast(input);
 					break;
 
 				case '3':
-					printTopInfo("LINKED LIST -> INSERT -> BEFORE NODE", ll.getListAsString().c_str());
+					str = listName + " -> BEFORE NODE";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter node to insert before of: ";
 					std::cin >> input;
 					std::cout << "Enter value to insert: ";
 					std::cin >> input2;
-					ll.insertBefore(input, input2);
+					list.insertBefore(input, input2);
 					break;
 
 				case '4':
-					printTopInfo("LINKED LIST -> INSERT -> AFTER NODE", ll.getListAsString().c_str());
+					str = listName + " -> AFTER NODE";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter node to insert after of: ";
 					std::cin >> input;
 					std::cout << "Enter value to insert: ";
 					std::cin >> input2;
-					ll.insertAfter(input, input2);
+					list.insertAfter(input, input2);
 					break;
 
 				case 'x': case 'X':
@@ -94,9 +142,19 @@ void TUI::llInsert() {
 
 }
 
-void TUI::llDelete() {
+template <typename O>
+void TUI::llDelete(O& list) {
+	std::string listName, str;
+
+	if (typeid(list) == typeid(ll)) {
+		listName = "LINKED LIST -> SINGLE -> DELETE";
+	}
+	else if (typeid(list) == typeid(dll)) {
+		listName = "LINKED LIST -> DOUBLE -> DELETE";
+	}
+
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("LINKED LIST -> DELETE", ll.getListAsString().c_str());
+        printTopInfo(listName.c_str(), list.getListAsString().c_str());
 		std::cout << "1. First node\n"
 				<< "2. Last node\n"
 				<< "3. Before node\n"
@@ -111,40 +169,43 @@ void TUI::llDelete() {
 		try {
 			switch (selection) {
 				case '1':
-					ll.deleteFirst();
+					list.deleteFirst();
 					break;
 
 				case '2':
-					ll.deleteLast();
+					list.deleteLast();
 					break;
 
 				case '3':
-					printTopInfo("LINKED LIST -> DELETE -> BEFORE NODE", ll.getListAsString().c_str());
+					str = listName + " -> BEFORE NODE";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter node to delete before of: ";
 					std::cin >> input;
-					ll.deleteBefore(input);
+					list.deleteBefore(input);
 					break;
 
 				case '4':
-					printTopInfo("LINKED LIST -> DELETE -> AFTER NODE", ll.getListAsString().c_str());
+					str = listName + " -> AFTER NODE";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter node to delete after of: ";
 					std::cin >> input;
-					ll.deleteAfter(input);
+					list.deleteAfter(input);
 					break;
 
 				case '5':
-					ll.deleteMid();
+					list.deleteMid();
 					break;
 
 				case '6':
-					printTopInfo("LINKED LIST -> DELETE -> NODE", ll.getListAsString().c_str());
+					str = listName + " -> NODE";
+					printTopInfo(str.c_str(), list.getListAsString().c_str());
 					std::cout << "Enter node to delete: ";
 					std::cin >> input;
-					ll.deleteNode(input);
+					list.deleteNode(input);
 					break;
 
 				case '7':
-					ll.deleteList();
+					list.deleteList();
 					break;
 
 				case 'x': case 'X':
@@ -163,10 +224,19 @@ void TUI::llDelete() {
 
 }
 
-void TUI::newList() {
+template <typename O>
+void TUI::newList(O& list) {
     char initialize = '|';
+	std::string listName;
 
-    printTopInfo("LINKED LIST -> NEW LIST", ll.getListAsString().c_str());
+	if (typeid(list) == typeid(ll)) {
+		listName = "LINKED LIST -> SINGLE -> NEW LIST";
+	}
+	else if (typeid(list) == typeid(dll)) {
+		listName = "LINKED LIST -> DOUBLE -> NEW LIST";
+	}
+
+    printTopInfo(listName.c_str(), "-");
     std::cout << "Initialize linked list with random nodes? [y/n]: ";
     std::cin >> initialize;
 
@@ -175,12 +245,12 @@ void TUI::newList() {
         return;
     }
 
-	if (ll.getElementCount() != 0) {
-    	ll.deleteList();
+	if (list.getElementCount() != 0) {
+    	list.deleteList();
 	}
 
     if (initialize == 'y') {
-		printTopInfo("LINKED LIST -> NEW LIST", ll.getListAsString().c_str());
+		printTopInfo(listName.c_str(), "-");
 		std::cout << "How many nodes should we generate?: ";
     	std::cin >> size;
 
@@ -191,8 +261,11 @@ void TUI::newList() {
 
         srand(time(0));
         for (int x=0; x<size; x++) {
-            ll.insertAtFirst(rand()%100);
+            list.insertAtFirst(rand()%100);
         }
     }
 }
+
+
+
 

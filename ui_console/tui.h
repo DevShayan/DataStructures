@@ -9,6 +9,8 @@
 #include "../headers/ll_queue.h"
 #include "../headers/ll_stack.h"
 #include "../headers/ll_double.h"
+#include "../headers/ll_double_queue.h"
+#include "../headers/ll_double_stack.h"
 
 
 class TUI {
@@ -32,6 +34,9 @@ class TUI {
         LLSimple<int> ll;
         LLQueue<int> que_ll;
         LLStack<int> stack_ll;
+        LLDouble<int> dll;
+        LLDoubleQue<int> que_dll;
+        LLDoubleStack<int> stack_dll;
 
         const std::string projectTitle = "  ___  ___   _     ___ ___  ___     _ ___ ___ _____ \n |   \\/ __| /_\\   | _ \\ _ \\/ _ \\ _ | | __/ __|_   _|\n | |) \\__ \\/ _ \\  |  _/   / (_) | || | _| (__  | |  \n |___/|___/_/ \\_\\ |_| |_|_\\\\___/ \\__/|___\\___| |_|  \n                                                    \n";
         const int lb = 0;
@@ -56,26 +61,24 @@ class TUI {
         void sort();
         void newArray();
 
-
         // queue
-        void queue();
-        void queueOnArray();
-        void queueOnLL();
+        void queueMenu();
+        template <typename O> void queue(O& queue);
         void newQueArr();
-        void newQueLL();
+        template <typename T> void newQueLL(T& queue);
 
         // stack
-        void stack();
-        void stackOnArray();
-        void stackOnLL();
+        void stackMenu();
+        template <typename T> void stack(T& stack);
         void newStackArr();
-        void newStackLL();
+        template <typename T> void newStackLL(T& stack);
 
         // linked list
-        void linkedList();
-        void llInsert();
-        void llDelete();
-        void newList();
+        void linkedListMenu();
+        template <typename O> void linkedList(O& list);
+        template <typename O> void llInsert(O& list);
+        template <typename O> void llDelete(O& list);
+        template <typename O> void newList(O& list);
 
         // mics
         void invalidInput(const char* input);

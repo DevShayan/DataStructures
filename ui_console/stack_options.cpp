@@ -1,21 +1,24 @@
 #include "tui.h"
 
-void TUI::stack() {
+void TUI::stackMenu() {
 	while (selection != 'x' || selection != 'X') {
-		printTopInfo("STACK", stack_arr.getStackAsString().c_str());
+		printTopInfo("STACK", "-");
 		std::cout << "1. on Array\n"
 				<< "2. on Linked List\n"
-				<< "!. on Double Linked List\n"
-				<< "X. Back\n\n"
+				<< "3. on Double Linked List\n\n"
+                << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
 		std::cin >> selection;
 
         switch (selection) {
             case '1':
-                stackOnArray();
+                stack(stack_arr);
                 break;
             case '2':
-                stackOnLL();
+                stack(stack_ll);
+                break;
+            case '3':
+                stack(stack_dll);
                 break;
             case 'x': case 'X':
                 system(clear);
@@ -26,14 +29,29 @@ void TUI::stack() {
     }
 }
 
-void TUI::stackOnArray() {
-    if (stack_arr.getSize() == 0) {
+template <typename T>
+void TUI::stack(T& stack) {
+    std::string stackHeading, str;
+
+    if (typeid(stack) == typeid(stack_arr) && stack_arr.getSize() == 0) {
         newStackArr();
+    }
+    else if (stack.getElementCount() == 0) {
+        newStackLL(stack);
+    }
+
+    if (typeid(stack) == typeid(stack_arr)) {
+        stackHeading = "STACK -> ON ARRAY";
+    }
+    else if (typeid(stack) == typeid(stack_ll)) {
+        stackHeading = "STACK -> ON LINKED LIST";
+    }
+    else if (typeid(stack) == typeid(stack_dll)) {
+        stackHeading = "STACK -> ON DOUBLE LINKED LIST";
     }
 
     while (selection != 'x' || selection != 'X') {
-        system(clear);
-		printTopInfo("STACK -> ON ARRAY", stack_arr.getStackAsString().c_str());
+		printTopInfo(stackHeading.c_str(), stack.getStackAsString().c_str());
         std::cout << "1. Insert\n"
                 << "2. Delete\n"
                 << "3. New Stack\n\n"
@@ -44,18 +62,22 @@ void TUI::stackOnArray() {
         try {
             switch (selection) {
                 case '1':
-                    printTopInfo("STACK -> ON ARRAY -> INSERT", stack_arr.getStackAsString().c_str());
-                    std::cout << "Enter value to push: ";
+                    str = stackHeading + " -> INSERT";
+                    printTopInfo(str.c_str(), stack.getStackAsString().c_str());
+                    std::cout << "Enter value to insert: ";
                     std::cin >> input;
-                    stack_arr.push(input);
+                    stack.push(input);
                     break;
 
                 case '2':
-                    stack_arr.pop();
+                    stack.pop();
                     break;
 
                 case '3':
-                    newStackArr();
+                    if (typeid(stack) == typeid(stack))
+                        newStackArr();
+                    else
+                        newStackLL(stack);
                     break;
 
                 case 'x': case 'X':
@@ -71,10 +93,12 @@ void TUI::stackOnArray() {
             invalidInput(error.c_str());
         }
     }
+    
 }
 
+
 void TUI::newStackArr() {
-    printTopInfo("STACK -> ON ARRAY -> NEW STACK", stack_arr.getStackAsString().c_str());
+    printTopInfo("STACK -> ON ARRAY -> NEW STACK", "-");
     std::cout << "Enter size of stack: ";
     std::cin >> size;
 
@@ -85,7 +109,7 @@ void TUI::newStackArr() {
 
     char initialize = '|';
 
-    printTopInfo("STACK -> ON ARRAY -> NEW STACK", stack_arr.getStackAsString().c_str());
+    printTopInfo("STACK -> ON ARRAY -> NEW STACK", "-");
     std::cout << "Initialize stack with random values? [y/n]: ";
     std::cin >> initialize;
 
@@ -104,56 +128,19 @@ void TUI::newStackArr() {
     }
 }
 
-void TUI::stackOnLL() {
-    if (stack_ll.getElementCount() == 0) {
-        newStackLL();
-    }
-
-    while (selection != 'x' || selection != 'X') {
-		printTopInfo("STACK -> ON LINKED LIST", stack_ll.getStackAsString().c_str());
-        std::cout << "1. Insert\n"
-                << "2. Delete\n"
-                << "3. New Stack\n\n"
-                << magenta << "X. Back\n\n" << clearTextColor
-                << "Select an operation: ";
-        std::cin >> selection;
-
-        try {
-            switch (selection) {
-                case '1':
-                    printTopInfo("STACK -> ON LINKED LIST -> INSERT", stack_ll.getStackAsString().c_str());
-                    std::cout << "Enter value to insert: ";
-                    std::cin >> input;
-                    stack_ll.push(input);
-                    break;
-
-                case '2':
-                    stack_ll.pop();
-                    break;
-
-                case '3':
-                    newStackLL();
-                    break;
-
-                case 'x': case 'X':
-                    system(clear);
-                    return;
-
-                default:
-                    invalidInput("Invalid selection!");
-            }
-        }
-        catch (const char* e) {
-            std::string error = std::string("Exception: ") + e;
-            invalidInput(error.c_str());
-        }
-    }
-}
-
-void TUI::newStackLL() {
+template <typename T>
+void TUI::newStackLL(T& stack) {
     char initialize = '|';
+    std::string stackHeading;
 
-    printTopInfo("STACK -> ON LINKED LIST -> NEW STACK", stack_ll.getStackAsString().c_str());
+    if (typeid(stack) == typeid(stack_ll)) {
+        stackHeading = "STACK -> ON ARRAY -> NEW STACK";
+    }
+    else if (typeid(stack) == typeid(stack_dll)) {
+        stackHeading = "STACK -> ON DOUBLE LINKED LIST -> NEW STACK";
+    }
+
+    printTopInfo(stackHeading.c_str(), "-");
     std::cout << "Initialize stack with random nodes? [y/n]: ";
     std::cin >> initialize;
 
@@ -162,23 +149,23 @@ void TUI::newStackLL() {
         return;
     }
 
-	if (stack_ll.getElementCount() != 0) {
-    	stack_ll.deleteStack();
+	if (stack.getElementCount() != 0) {
+    	stack.deleteStack();
 	}
 
     if (initialize == 'y') {
-		printTopInfo("STACK -> ON LINKED LIST -> NEW STACK", stack_ll.getStackAsString().c_str());
-		std::cout << "How many nodes should we generate?: ";
+		printTopInfo(stackHeading.c_str(), "-");
+		std::cout << "How many elements/nodes should we generate?: ";
     	std::cin >> size;
 
 		if (size < 1 && size > 1000) {
-			std::cout << "Random nodes must be in the range 1-1000.\n";
+			std::cout << "Random elements/nodes must be in the range 1-1000.\n";
 			return;
 		}
 
         srand(time(0));
         for (int x=0; x<size; x++) {
-            stack_ll.push(rand()%100);
+            stack.push(rand()%100);
         }
     }
 }

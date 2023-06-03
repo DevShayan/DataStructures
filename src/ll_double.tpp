@@ -8,6 +8,7 @@ LLDouble<T>::LLDouble() {
 
 template<typename T>
 LLDouble<T>::LLDouble(std::initializer_list<T> list) {
+	numberOfElements = list.size();
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}
@@ -17,17 +18,14 @@ template<typename T>
 void LLDouble<T>::insertAtFirst(T data) {
 	Node* n = new Node();
 	n->data = data;
-	n->next = NULL;
+	n->next = head;
 	n->prev = NULL;
 
-	if (head == NULL) {
-		head = n;
-	}
-	else {
-		n->next = head;
+	if (head != NULL) {
 		head->prev = n;
-		head = n;
 	}
+	head = n;
+	numberOfElements++;
 }
 
 template<typename T>
@@ -46,9 +44,10 @@ void LLDouble<T>::insertAtLast(T data) {
 			tmp = tmp->next;
 		}
 
-		tmp->next = n;
 		n->prev = tmp;
+		tmp->next = n;
 	}
+	numberOfElements++;
 }
 
 template<typename T>
@@ -87,7 +86,7 @@ void LLDouble<T>::insertBefore(T node, T data) {
 }
 
 template<typename T>
-T LLDouble<T>::deleteAtFirst() {
+T LLDouble<T>::deleteFirst() {
 	if (head == NULL)
 		throw "Cannot delete from empty list!";
 
@@ -96,18 +95,20 @@ T LLDouble<T>::deleteAtFirst() {
 
 	T returnValue = del->data;
 	delete del;
+
+	numberOfElements--;
 	return returnValue;
 }
 
 template<typename T>
-T LLDouble<T>::deleteAtLast() {
+T LLDouble<T>::deleteLast() {
 	if (head == NULL)
 		throw "Cannot delete from empty list!";
 
 	Node* tmp = head;
 
 	if (head->next == NULL)
-		return deleteAtFirst();
+		return deleteFirst();
 
 	while (tmp->next->next != NULL)
 		tmp = tmp->next;
@@ -142,7 +143,7 @@ T LLDouble<T>::deleteBefore(T node) {
 	Node* tmp = head;
 
 	if (tmp->next->data == node)
-		return deleteAtFirst();
+		return deleteFirst();
 
 	while (tmp->next->next != NULL && tmp->next->next->data != node)
 		tmp = tmp->next;
@@ -159,7 +160,7 @@ T LLDouble<T>::deleteMid() {
 		throw "Cannot delete from empty list.s";
 
 	if (head->next == NULL)
-		return deleteAtFirst();
+		return deleteFirst();
 
 	Node* tmp = head;
 	int count = 0;
@@ -187,7 +188,7 @@ T LLDouble<T>::deleteNode(T node) {
 	Node* tmp = head;
 
 	if (head->data == node) {
-		return deleteAtFirst();
+		return deleteFirst();
 	}
 	
 	while (tmp->next != NULL && tmp->next->data != node) {
@@ -200,10 +201,25 @@ T LLDouble<T>::deleteNode(T node) {
 	return deleteAfter(tmp);
 }
 
+template<typename T>
+void LLDouble<T>::deleteList() {
+	if (head == NULL)
+		throw "Cannot delete empty list!";
+
+	Node* tmp = head;
+	while (tmp != NULL) {
+		deleteFirst();
+		tmp = head;
+	}
+	numberOfElements = 0;
+}
+
 // Getters and Setters
 
 template<typename T>
 void LLDouble<T>::setList(std::initializer_list<T> list) {
+	deleteList();
+	numberOfElements = list.size();
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}
@@ -233,6 +249,11 @@ std::string LLDouble<T>::getListAsString() {
 	
 }
 
+template<typename T>
+int LLDouble<T>::getElementCount() {
+	return numberOfElements;
+}
+
 // private
 
 template<typename T>
@@ -242,8 +263,9 @@ void LLDouble<T>::insertAfter(Node* ptr, T data) {
 
 	n->next = ptr->next;
 	n->prev = ptr;
-	ptr->next->prev = n;
 	ptr->next = n;
+	n->next->prev = n;
+	numberOfElements++;
 }
 
 template<typename T>
@@ -253,6 +275,8 @@ T LLDouble<T>::deleteAfter(Node* ptr) {
 	ptr->next->prev = ptr->next->prev->prev;
 	T returnValue = del->data;
 	delete del;
+
+	numberOfElements--;
 	return returnValue;
 }
 

@@ -1,13 +1,13 @@
-#ifndef LL_STACK_TPP
-#define LL_STACK_TPP
+#ifndef LL_DOUBLE_STACK_TPP
+#define LL_DOUBLE_STACK_TPP
 
 template <typename T>
-LLStack<T>::LLStack() {
+LLDoubleStack<T>::LLDoubleStack() {
     //
 }
 
 template <typename T>
-LLStack<T>::LLStack(std::initializer_list<T> list) {
+LLDoubleStack<T>::LLDoubleStack(std::initializer_list<T> list) {
 	numberOfElements = list.size();
 	for (const auto& element : list) {
 		push(element);
@@ -15,23 +15,30 @@ LLStack<T>::LLStack(std::initializer_list<T> list) {
 }
 
 template <typename T>
-void LLStack<T>::push(T data) {
+void LLDoubleStack<T>::push(T data) {
     Node* n = new Node();
     n->data = data;
     n->next = top;
+	n->prev = NULL;
 
+	if (top != NULL) {
+		top->prev = n;
+	}
     top = n;
     numberOfElements++;
 }
 
 template <typename T>
-T LLStack<T>::pop() {
+T LLDoubleStack<T>::pop() {
     if (top == NULL)
         throw "Cannot pop from empty stack!";
 
     Node* del = top;
 
     top = top->next;
+	if (top != NULL)
+		top->prev = NULL;
+
     T returnValue = del->data;
     delete del;
 
@@ -40,7 +47,7 @@ T LLStack<T>::pop() {
 }
 
 template<typename T>
-void LLStack<T>::deleteStack() {
+void LLDoubleStack<T>::deleteStack() {
 	if (top == NULL)
 		throw "Cannot delete empty list!";
 
@@ -55,7 +62,7 @@ void LLStack<T>::deleteStack() {
 // Getters and setters
 
 template<typename T>
-void LLStack<T>::setList(std::initializer_list<T> list) {
+void LLDoubleStack<T>::setList(std::initializer_list<T> list) {
 	deleteStack();
 	numberOfElements = list.size();
 	for (const auto& element : list) {
@@ -64,7 +71,7 @@ void LLStack<T>::setList(std::initializer_list<T> list) {
 }
 
 template<typename T>
-std::string LLStack<T>::getStackAsString() {
+std::string LLDoubleStack<T>::getStackAsString() {
 	Node* tmp = top;
 	std::string returnValue = "";
 
@@ -87,8 +94,9 @@ std::string LLStack<T>::getStackAsString() {
 }
 
 template <typename T>
-int LLStack<T>::getElementCount() {
+int LLDoubleStack<T>::getElementCount() {
     return numberOfElements;
 }
+
 
 #endif

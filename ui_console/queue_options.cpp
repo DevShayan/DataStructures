@@ -1,21 +1,24 @@
 #include "tui.h"
 
-void TUI::queue() {
+void TUI::queueMenu() {
 	while (selection != 'x' || selection != 'X') {
 		printTopInfo("QUEUE", que_arr.getQueueAsString().c_str());
 		std::cout << "1. on Array\n"
 				<< "2. on Linked List\n"
-				<< "!. on Double Linked List\n"
-				<< "X. Back\n\n"
+				<< "3. on Double Linked List\n\n"
+                << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
 		std::cin >> selection;
 
         switch (selection) {
             case '1':
-                queueOnArray();
+                queue(que_arr);
                 break;
             case '2':
-                queueOnLL();
+                queue(que_ll);
+                break;
+            case '3':
+                queue(que_dll);
                 break;
             case 'x': case 'X':
                 system(clear);
@@ -26,14 +29,29 @@ void TUI::queue() {
     }
 }
 
-void TUI::queueOnArray() {
-    if (que_arr.getSize() == 0) {
+template <typename O>
+void TUI::queue(O& queue) {
+    std::string queueHeading, str;
+
+    if (typeid(queue) == typeid(que_arr) && que_arr.getSize() == 0) {
         newQueArr();
+    }
+    else if (queue.getElementCount() == 0) {
+        newQueLL(queue);
+    }
+
+    if (typeid(queue) == typeid(que_arr)) {
+        queueHeading = "QUEUE -> ON ARRAY";
+    }
+    else if (typeid(queue) == typeid(que_ll)) {
+        queueHeading = "QUEUE -> ON LINKED LIST";
+    }
+    else if (typeid(queue) == typeid(que_dll)) {
+        queueHeading = "QUEUE -> ON DOUBLE LINKED LIST";
     }
 
     while (selection != 'x' || selection != 'X') {
-        system(clear);
-		printTopInfo("QUEUE -> ON ARRAY", que_arr.getQueueAsString().c_str());
+		printTopInfo(queueHeading.c_str(), queue.getQueueAsString().c_str());
         std::cout << "1. Insert\n"
                 << "2. Delete\n"
                 << "3. New Queue\n\n"
@@ -44,18 +62,22 @@ void TUI::queueOnArray() {
         try {
             switch (selection) {
                 case '1':
-                    printTopInfo("QUEUE -> ON ARRAY -> INSERT", que_arr.getQueueAsString().c_str());
+                    str = queueHeading + " -> INSERT";
+                    printTopInfo(str.c_str(), queue.getQueueAsString().c_str());
                     std::cout << "Enter value to push: ";
                     std::cin >> input;
-                    que_arr.enQueue(input);
+                    queue.enQueue(input);
                     break;
 
                 case '2':
-                    que_arr.deQueue();
+                    queue.deQueue();
                     break;
 
                 case '3':
-                    newQueArr();
+                    if (typeid(queue) == typeid(queue))
+                        newQueArr();
+                    else
+                        newQueLL(queue);
                     break;
 
                 case 'x': case 'X':
@@ -71,10 +93,12 @@ void TUI::queueOnArray() {
             invalidInput(error.c_str());
         }
     }
+    
 }
 
+
 void TUI::newQueArr() {
-    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", que_arr.getQueueAsString().c_str());
+    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", "-");
     std::cout << "Enter size of queue: ";
     std::cin >> size;
 
@@ -85,7 +109,7 @@ void TUI::newQueArr() {
 
     char initialize = '|';
 
-    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", que_arr.getQueueAsString().c_str());
+    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", "-");
     std::cout << "Initialize queue with random values? [y/n]: ";
     std::cin >> initialize;
 
@@ -104,56 +128,19 @@ void TUI::newQueArr() {
     }
 }
 
-void TUI::queueOnLL() {
-    if (que_ll.getElementCount() == 0) {
-        newQueLL();
-    }
-
-    while (selection != 'x' || selection != 'X') {
-		printTopInfo("QUEUE -> ON LINKED LIST", que_ll.getQueueAsString().c_str());
-        std::cout << "1. Insert\n"
-                << "2. Delete\n"
-                << "3. New Queue\n\n"
-                << magenta << "X. Back\n\n" << clearTextColor
-                << "Select an operation: ";
-        std::cin >> selection;
-
-        try {
-            switch (selection) {
-                case '1':
-                    printTopInfo("QUEUE -> ON LINKED LIST -> INSERT", que_ll.getQueueAsString().c_str());
-                    std::cout << "Enter value to insert: ";
-                    std::cin >> input;
-                    que_ll.enQueue(input);
-                    break;
-
-                case '2':
-                    que_ll.deQueue();
-                    break;
-
-                case '3':
-                    newQueLL();
-                    break;
-
-                case 'x': case 'X':
-                    system(clear);
-                    return;
-
-                default:
-                    invalidInput("Invalid selection!");
-            }
-        }
-        catch (const char* e) {
-            std::string error = std::string("Exception: ") + e;
-            invalidInput(error.c_str());
-        }
-    }
-}
-
-void TUI::newQueLL() {
+template <typename T>
+void TUI::newQueLL(T& queue) {
     char initialize = '|';
+    std::string queueHeading;
 
-    printTopInfo("QUEUE -> ON LINKED LIST -> NEW QUEUE", que_ll.getQueueAsString().c_str());
+    if (typeid(queue) == typeid(que_ll)) {
+        queueHeading = "QUEUE -> ON ARRAY -> NEW QUEUE";
+    }
+    else if (typeid(queue) == typeid(que_dll)) {
+        queueHeading = "QUEUE -> ON DOUBLE LINKED LIST -> NEW QUEUE";
+    }
+
+    printTopInfo(queueHeading.c_str(), "-");
     std::cout << "Initialize queue with random nodes? [y/n]: ";
     std::cin >> initialize;
 
@@ -162,23 +149,23 @@ void TUI::newQueLL() {
         return;
     }
 
-	if (que_ll.getElementCount() != 0) {
-    	que_ll.deleteQueue();
+	if (queue.getElementCount() != 0) {
+    	queue.deleteQueue();
 	}
 
     if (initialize == 'y') {
-		printTopInfo("QUEUE -> ON LINKED LIST -> NEW QUEUE", que_ll.getQueueAsString().c_str());
-		std::cout << "How many nodes should we generate?: ";
+		printTopInfo(queueHeading.c_str(), "-");
+		std::cout << "How many elements/nodes should we generate?: ";
     	std::cin >> size;
 
 		if (size < 1 && size > 1000) {
-			std::cout << "Random nodes must be in the range 1-1000.\n";
+			std::cout << "Random elements/nodes must be in the range 1-1000.\n";
 			return;
 		}
 
         srand(time(0));
         for (int x=0; x<size; x++) {
-            que_ll.enQueue(rand()%100);
+            queue.enQueue(rand()%100);
         }
     }
 }

@@ -35,16 +35,16 @@ void TUI::start() {
 
         switch (selection) {
             case '1':
-                queue();
+                queueMenu();
                 break;
             case '2':
-                stack();
+                stackMenu();
                 break;
             case '3':
                 array();
                 break;
             case '4':
-                linkedList();
+                linkedListMenu();
                 break;
             case 'x': case 'X':
                 system(clear);

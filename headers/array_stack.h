@@ -14,7 +14,6 @@ class ArrayStack {
         int stackSize = 0;
 		int top = -1;
 
-        void deleteStack();
 
     public:
         ArrayStack();
@@ -35,6 +34,7 @@ class ArrayStack {
 
         // Misc
         void clearStack();
+        void deleteStack();
 };
 
 #include "../src/array_stack.tpp"

@@ -1,28 +1,25 @@
 #include "../DataStructures/ui_console/tui.h"
-// #include "../DataStructures/headers/array_simple.h"
-// #include "../DataStructures/headers/ll_simple.h"
-// #include "../DataStructures/headers/array_queue.h"
-// #include "../DataStructures/headers/array_stack.h"
-// #include "../DataStructures/headers/ll_double.h"
+#include "../DataStructures/headers/tree_binary.h"
 
 
 int main() {
 
-    TUI ui;
-    ui.start();
+    // TUI ui;
+    // ui.start();
 
-    // LLDouble<int> obj = {10, -5, 10, 45, 34};
+    TreeBinary<int> obj = {10, -5, 11, 45, 34};
     // int a;
 
     // try {
-    //     a = obj.pop();
+    //     obj.insert(45);
     // }
     // catch (const char* e) {
     //     std::cout << "Exception: " << e << '\n';
     // }
 
-    // std::cout << obj.getListAsString() << '\n';
-    // std::cout << obj.getListAsString() << '\n' << a << '\n';
+    std::cout << obj.getTreeAsString(TreeBinary<int>::BREADTH_FIRST) << '\n';
+    // obj.print2D();
+    // std::cout << obj.getTreeAsString(TreeBinary<int>::IN_ORDER) << '\n' << a << '\n';
     
     return 0;
 }

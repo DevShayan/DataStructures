@@ -8,7 +8,7 @@ template <typename T>
 class LLQueue {
     private:
         struct Node {
-            int data;
+            T data;
             Node* next;
         };
         Node* front = NULL;

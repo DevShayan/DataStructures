@@ -125,10 +125,10 @@ T LLDouble<T>::deleteAfter(T node) {
 	while (tmp != NULL && tmp->data != node)
 		tmp = tmp->next;
 
-	if (tmp->next == NULL)
-		throw "Cannot delete after last node.";
 	if (tmp == NULL)
 		throw "Node not found in list.";
+	if (tmp->next == NULL)
+		throw "Cannot delete after last node.";
 
 	return deleteAfter(tmp);
 }
@@ -272,7 +272,9 @@ template<typename T>
 T LLDouble<T>::deleteAfter(Node* ptr) {
 	Node* del = ptr->next;
 	ptr->next = ptr->next->next;
-	ptr->next->prev = ptr->next->prev->prev;
+	if (ptr->next != NULL) {
+		ptr->next->prev = ptr->next->prev->prev;
+	}
 	T returnValue = del->data;
 	delete del;
 

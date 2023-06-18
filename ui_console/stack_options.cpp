@@ -2,7 +2,7 @@
 
 void TUI::stackMenu() {
 	while (selection != 'x' || selection != 'X') {
-		printTopInfo("STACK", "-");
+		printTopInfo("STACK", "-", NULL);
 		std::cout << "1. on Array\n"
 				<< "2. on Linked List\n"
 				<< "3. on Double Linked List\n\n"
@@ -51,7 +51,7 @@ void TUI::stack(T& stack) {
     }
 
     while (selection != 'x' || selection != 'X') {
-		printTopInfo(stackHeading.c_str(), stack.getStackAsString().c_str());
+		printTopInfo(stackHeading.c_str(), stack.getStackAsString().c_str(), NULL);
         std::cout << "1. Insert\n"
                 << "2. Delete\n"
                 << "3. New Stack\n\n"
@@ -63,7 +63,7 @@ void TUI::stack(T& stack) {
             switch (selection) {
                 case '1':
                     str = stackHeading + " -> INSERT";
-                    printTopInfo(str.c_str(), stack.getStackAsString().c_str());
+                    printTopInfo(str.c_str(), stack.getStackAsString().c_str(), NULL);
                     std::cout << "Enter value to insert: ";
                     std::cin >> input;
                     stack.push(input);
@@ -98,7 +98,7 @@ void TUI::stack(T& stack) {
 
 
 void TUI::newStackArr() {
-    printTopInfo("STACK -> ON ARRAY -> NEW STACK", "-");
+    printTopInfo("STACK -> ON ARRAY -> NEW STACK", "-", NULL);
     std::cout << "Enter size of stack: ";
     std::cin >> size;
 
@@ -109,7 +109,7 @@ void TUI::newStackArr() {
 
     char initialize = '|';
 
-    printTopInfo("STACK -> ON ARRAY -> NEW STACK", "-");
+    printTopInfo("STACK -> ON ARRAY -> NEW STACK", "-", NULL);
     std::cout << "Initialize stack with random values? [y/n]: ";
     std::cin >> initialize;
 
@@ -140,7 +140,7 @@ void TUI::newStackLL(T& stack) {
         stackHeading = "STACK -> ON DOUBLE LINKED LIST -> NEW STACK";
     }
 
-    printTopInfo(stackHeading.c_str(), "-");
+    printTopInfo(stackHeading.c_str(), "-", NULL);
     std::cout << "Initialize stack with random nodes? [y/n]: ";
     std::cin >> initialize;
 
@@ -154,7 +154,7 @@ void TUI::newStackLL(T& stack) {
 	}
 
     if (initialize == 'y') {
-		printTopInfo(stackHeading.c_str(), "-");
+		printTopInfo(stackHeading.c_str(), "-", NULL);
 		std::cout << "How many elements/nodes should we generate?: ";
     	std::cin >> size;
 

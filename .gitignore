@@ -1,5 +1,9 @@
 .vs/
 .vscode/
+
 *.out
+*.exe
 *.bat
 *.sh
+
+test.cs

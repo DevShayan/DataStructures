@@ -8,7 +8,6 @@ LLSimple<T>::LLSimple() {
 
 template<typename T>
 LLSimple<T>::LLSimple(std::initializer_list<T> list) {
-	numberOfElements = list.size();
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}

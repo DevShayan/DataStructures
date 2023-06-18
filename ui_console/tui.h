@@ -2,6 +2,8 @@
 #define CONSOLE_UI_H
 
 #include <iostream>
+#include <typeinfo>
+#include <ctime>
 #include "../headers/array_simple.h"
 #include "../headers/array_queue.h"
 #include "../headers/array_stack.h"
@@ -11,6 +13,7 @@
 #include "../headers/ll_double.h"
 #include "../headers/ll_double_queue.h"
 #include "../headers/ll_double_stack.h"
+#include "../headers/tree_binary.h"
 
 
 class TUI {
@@ -25,7 +28,7 @@ class TUI {
         const char* magenta = "\033[35m";
         const char* red = "\033[31m";
         const char* yellow = "\033[33m";
-        const char* grayBg = "\033[47m";
+        const char* gray = "\033[90m";
         const char* clearTextColor = "\033[0m";
 
         ArraySimple<int> arr;
@@ -37,6 +40,7 @@ class TUI {
         LLDouble<int> dll;
         LLDoubleQue<int> que_dll;
         LLDoubleStack<int> stack_dll;
+        TreeBinary<int> tree;
 
         const std::string projectTitle = "  ___  ___   _     ___ ___  ___     _ ___ ___ _____ \n |   \\/ __| /_\\   | _ \\ _ \\/ _ \\ _ | | __/ __|_   _|\n | |) \\__ \\/ _ \\  |  _/   / (_) | || | _| (__  | |  \n |___/|___/_/ \\_\\ |_| |_|_\\\\___/ \\__/|___\\___| |_|  \n                                                    \n";
         const int lb = 0;
@@ -80,9 +84,13 @@ class TUI {
         template <typename O> void llDelete(O& list);
         template <typename O> void newList(O& list);
 
+        // binary tree
+        void treeMenu();
+        void newTree();
+
         // mics
         void invalidInput(const char* input);
-        void printTopInfo(const char* path, const char* list);
+        void printTopInfo(const char* path, const char* list, const char* info);
 };
 
 #endif

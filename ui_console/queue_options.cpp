@@ -2,7 +2,7 @@
 
 void TUI::queueMenu() {
 	while (selection != 'x' || selection != 'X') {
-		printTopInfo("QUEUE", que_arr.getQueueAsString().c_str());
+		printTopInfo("QUEUE", que_arr.getQueueAsString().c_str(), NULL);
 		std::cout << "1. on Array\n"
 				<< "2. on Linked List\n"
 				<< "3. on Double Linked List\n\n"
@@ -51,7 +51,7 @@ void TUI::queue(O& queue) {
     }
 
     while (selection != 'x' || selection != 'X') {
-		printTopInfo(queueHeading.c_str(), queue.getQueueAsString().c_str());
+		printTopInfo(queueHeading.c_str(), queue.getQueueAsString().c_str(), NULL);
         std::cout << "1. Insert\n"
                 << "2. Delete\n"
                 << "3. New Queue\n\n"
@@ -63,7 +63,7 @@ void TUI::queue(O& queue) {
             switch (selection) {
                 case '1':
                     str = queueHeading + " -> INSERT";
-                    printTopInfo(str.c_str(), queue.getQueueAsString().c_str());
+                    printTopInfo(str.c_str(), queue.getQueueAsString().c_str(), NULL);
                     std::cout << "Enter value to push: ";
                     std::cin >> input;
                     queue.enQueue(input);
@@ -98,7 +98,7 @@ void TUI::queue(O& queue) {
 
 
 void TUI::newQueArr() {
-    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", "-");
+    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", "-", NULL);
     std::cout << "Enter size of queue: ";
     std::cin >> size;
 
@@ -109,7 +109,7 @@ void TUI::newQueArr() {
 
     char initialize = '|';
 
-    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", "-");
+    printTopInfo("QUEUE -> ON ARRAY -> NEW QUEUE", "-", NULL);
     std::cout << "Initialize queue with random values? [y/n]: ";
     std::cin >> initialize;
 
@@ -140,7 +140,7 @@ void TUI::newQueLL(T& queue) {
         queueHeading = "QUEUE -> ON DOUBLE LINKED LIST -> NEW QUEUE";
     }
 
-    printTopInfo(queueHeading.c_str(), "-");
+    printTopInfo(queueHeading.c_str(), "-", NULL);
     std::cout << "Initialize queue with random nodes? [y/n]: ";
     std::cin >> initialize;
 
@@ -154,7 +154,7 @@ void TUI::newQueLL(T& queue) {
 	}
 
     if (initialize == 'y') {
-		printTopInfo(queueHeading.c_str(), "-");
+		printTopInfo(queueHeading.c_str(), "-", NULL);
 		std::cout << "How many elements/nodes should we generate?: ";
     	std::cin >> size;
 

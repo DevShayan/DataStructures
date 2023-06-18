@@ -8,7 +8,7 @@ void TUI::array() {
     }
 
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("ARRAY", arr.getArrayAsString().c_str());
+        printTopInfo("ARRAY", arr.getArrayAsString().c_str(), NULL);
         std::cout << "1. Insert\n"
                 << "2. Delete\n"
                 << "3. Search\n"
@@ -45,7 +45,7 @@ void TUI::array() {
 }
 
 void TUI::insertion() {
-    printTopInfo("ARRAY -> INSERT", arr.getArrayAsString().c_str());
+    printTopInfo("ARRAY -> INSERT", arr.getArrayAsString().c_str(), NULL);
     std::cout << "Enter value to insert: ";
     std::cin >> input;
     std::cout << "Enter position of insertion: ";
@@ -60,7 +60,7 @@ void TUI::insertion() {
 
 void TUI::deletion() {
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("ARRAY -> DELETE", arr.getArrayAsString().c_str());
+        printTopInfo("ARRAY -> DELETE", arr.getArrayAsString().c_str(), NULL);
         std::cout << "1. Full array\n"
                 << "2. One value\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
@@ -79,7 +79,6 @@ void TUI::deletion() {
                 deletionItem();
                 break;
             case 'x': case 'X':
-                system(clear);
                 return;
             default:
                 invalidInput("Invalid selection!");
@@ -88,7 +87,7 @@ void TUI::deletion() {
 }
 
 void TUI::deletionItem() {
-    printTopInfo("ARRAY -> DELETE -> ONE VALUE", arr.getArrayAsString().c_str());
+    printTopInfo("ARRAY -> DELETE -> ONE VALUE", arr.getArrayAsString().c_str(), NULL);
     std::cout << "Enter position of deletion: ";
     std::cin >> input;
 
@@ -103,7 +102,7 @@ void TUI::deletionItem() {
 
 void TUI::search() {
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("ARRAY -> SEARCH", arr.getArrayAsString().c_str());
+        printTopInfo("ARRAY -> SEARCH", arr.getArrayAsString().c_str(), NULL);
         std::cout << "1. Single Search\n"
                 << "2. Multi Search\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
@@ -132,7 +131,7 @@ char TUI::searchingMenu() {
 
 void TUI::singleSearch() {
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("ARRAY -> SEARCH -> SINGLE SEARCH", arr.getArrayAsString().c_str());
+        printTopInfo("ARRAY -> SEARCH -> SINGLE SEARCH", arr.getArrayAsString().c_str(), NULL);
         selection = searchingMenu();
 
         if (selection == 'x' || selection == 'X') return;
@@ -140,13 +139,13 @@ void TUI::singleSearch() {
         int foundIndex;
         
         if (selection == '1') {
-            printTopInfo("ARRAY -> SEARCH -> SINGLE SEARCH --> LINEAR SEARCH", arr.getArrayAsString().c_str());
+            printTopInfo("ARRAY -> SEARCH -> SINGLE SEARCH --> LINEAR SEARCH", arr.getArrayAsString().c_str(), NULL);
             std::cout << "Enter value to search in array: ";
             std::cin >> input;
             foundIndex = arr.singleLinearSearch(input);
         }
         else if (selection == '2') {
-            printTopInfo("ARRAY -> SEARCH -> SINGLE SEARCH --> BINARY SEARCH", arr.getArrayAsString().c_str());
+            printTopInfo("ARRAY -> SEARCH -> SINGLE SEARCH --> BINARY SEARCH", arr.getArrayAsString().c_str(), NULL);
             std::cout << "Enter value to search in array: ";
             std::cin >> input;
             foundIndex = arr.singleBinarySearch(input);
@@ -164,19 +163,19 @@ void TUI::singleSearch() {
 
 void TUI::multiSearch() {
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("ARRAY -> SEARCH -> MULTI SEARCH", arr.getArrayAsString().c_str());
+        printTopInfo("ARRAY -> SEARCH -> MULTI SEARCH", arr.getArrayAsString().c_str(), NULL);
         selection = searchingMenu();
 
         if (selection == 'x' || selection == 'X') return;
 
         if (selection == '1') {
-            printTopInfo("ARRAY -> SEARCH -> MULTI SEARCH -> LINEAR SEARCH", arr.getArrayAsString().c_str());
+            printTopInfo("ARRAY -> SEARCH -> MULTI SEARCH -> LINEAR SEARCH", arr.getArrayAsString().c_str(), NULL);
             std::cout << "Enter value to search in array: ";
             std::cin >> input;
             std::cout << input << " is " << arr.multiLinearSearch(input) << " times in array.\n";
         }
         else if (selection == '2') {
-            printTopInfo("ARRAY -> SEARCH -> MULTI SEARCH -> BINARY SEARCH", arr.getArrayAsString().c_str());
+            printTopInfo("ARRAY -> SEARCH -> MULTI SEARCH -> BINARY SEARCH", arr.getArrayAsString().c_str(), NULL);
             std::cout << "Enter value to search in array: ";
             std::cin >> input;
             std::cout << input << " is " << arr.multiBinarySearch(input) << " times in array.\n";
@@ -187,10 +186,10 @@ void TUI::multiSearch() {
 
 void TUI::sort() {
     while (selection != 'x' || selection != 'X') {
-        printTopInfo("ARRAY -> SORT", arr.getArrayAsString().c_str());
+        printTopInfo("ARRAY -> SORT", arr.getArrayAsString().c_str(), NULL);
         std::cout << "1. Bubble Sort\n"
-                    << "3. Insertion Sort\n"
                     << "2. Selection Sort\n"
+                    << "3. Insertion Sort\n"
                     << "4. Shell Sort\n"
                     << "5. Merge Sort\n"
                     << "6. Quick Sort\n\n"
@@ -204,42 +203,42 @@ void TUI::sort() {
 
         switch (selection) {
             case '1':
-                printTopInfo("ARRAY -> SORT -> BUBBLE SORT", arr.getArrayAsString().c_str());
+                printTopInfo("ARRAY -> SORT -> BUBBLE SORT", arr.getArrayAsString().c_str(), NULL);
                 std::cout << "Sort ascending? [y/n]: ";
                 std::cin >> sortAscending;
                 arr.bubbleSort(sortAscending != 'n');
                 break;
 
             case '2':
-                printTopInfo("ARRAY -> SORT -> SELECTION SORT", arr.getArrayAsString().c_str());
+                printTopInfo("ARRAY -> SORT -> SELECTION SORT", arr.getArrayAsString().c_str(), NULL);
                 std::cout << "Sort ascending? [y/n]: ";
                 std::cin >> sortAscending;
                 arr.selectionSort(sortAscending != 'n');
                 break;
 
             case '3':
-                printTopInfo("ARRAY -> SORT -> INSERTION SORT", arr.getArrayAsString().c_str());
+                printTopInfo("ARRAY -> SORT -> INSERTION SORT", arr.getArrayAsString().c_str(), NULL);
                 std::cout << "Sort ascending? [y/n]: ";
                 std::cin >> sortAscending;
                 arr.insertionSort(sortAscending != 'n');
                 break;
 
             case '4':
-                printTopInfo("ARRAY -> SORT -> SHELL SORT", arr.getArrayAsString().c_str());
+                printTopInfo("ARRAY -> SORT -> SHELL SORT", arr.getArrayAsString().c_str(), NULL);
                 std::cout << "Sort ascending? [y/n]: ";
                 std::cin >> sortAscending;
                 arr.shellSort(sortAscending != 'n');
                 break;
 
             case '5':
-                printTopInfo("ARRAY -> SORT -> MERGE SORT", arr.getArrayAsString().c_str());
+                printTopInfo("ARRAY -> SORT -> MERGE SORT", arr.getArrayAsString().c_str(), NULL);
                 std::cout << "Sort ascending? [y/n]: ";
                 std::cin >> sortAscending;
                 arr.mergeSort(sortAscending != 'n');
                 break;
 
             case '6':
-                printTopInfo("ARRAY -> SORT -> QUICK SORT", arr.getArrayAsString().c_str());
+                printTopInfo("ARRAY -> SORT -> QUICK SORT", arr.getArrayAsString().c_str(), NULL);
                 std::cout << "Sort ascending? [y/n]: ";
                 std::cin >> sortAscending;
                 arr.quickSort(sortAscending != 'n');
@@ -253,7 +252,7 @@ void TUI::sort() {
 }
 
 void TUI::newArray() {
-    printTopInfo("ARRAY -> NEW ARRAY", "-");
+    printTopInfo("ARRAY -> NEW ARRAY", "-", NULL);
     std::cout << "Enter size of array: ";
     std::cin >> size;
 
@@ -264,7 +263,7 @@ void TUI::newArray() {
 
     char initialize = '|';
 
-    printTopInfo("ARRAY -> NEW ARRAY", "-");
+    printTopInfo("ARRAY -> NEW ARRAY", "-", NULL);
     std::cout << "Initialize array with random values? [y/n]: ";
     std::cin >> initialize;
 

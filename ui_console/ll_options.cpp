@@ -2,7 +2,7 @@
 
 void TUI::linkedListMenu() {
 	while (selection != 'x' || selection != 'X') {
-        printTopInfo("LINKED LIST", "-");
+        printTopInfo("LINKED LIST", "-", NULL);
 		std::cout << "1. Single\n"
 				<< "2. Double\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
@@ -40,7 +40,7 @@ void TUI::linkedList(O& list) {
 	}
 
     while (selection != 'x' || selection != 'X') {
-        printTopInfo(listName.c_str(), list.getListAsString().c_str());
+        printTopInfo(listName.c_str(), list.getListAsString().c_str(), NULL);
 		std::cout << "1. Insert\n"
 				<< "2. Delete\n"
 				<< "3. New list\n\n"
@@ -79,7 +79,7 @@ void TUI::llInsert(O& list) {
 	}
 
     while (selection != 'x' || selection != 'X') {
-        printTopInfo(listName.c_str(), list.getListAsString().c_str());
+        printTopInfo(listName.c_str(), list.getListAsString().c_str(), NULL);
 		std::cout << "1. At first\n"
 				<< "2. At last\n"
 				<< "3. Before node\n"
@@ -92,7 +92,7 @@ void TUI::llInsert(O& list) {
 			switch (selection) {
 				case '1':
 					str = listName + " -> AR FIRST";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter value to insert: ";
 					std::cin >> input;
 					list.insertAtFirst(input);
@@ -100,7 +100,7 @@ void TUI::llInsert(O& list) {
 
 				case '2':
 					str = listName + " -> AT LAST";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter value to insert: ";
 					std::cin >> input;
 					list.insertAtLast(input);
@@ -108,7 +108,7 @@ void TUI::llInsert(O& list) {
 
 				case '3':
 					str = listName + " -> BEFORE NODE";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter node to insert before of: ";
 					std::cin >> input;
 					std::cout << "Enter value to insert: ";
@@ -118,7 +118,7 @@ void TUI::llInsert(O& list) {
 
 				case '4':
 					str = listName + " -> AFTER NODE";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter node to insert after of: ";
 					std::cin >> input;
 					std::cout << "Enter value to insert: ";
@@ -154,7 +154,7 @@ void TUI::llDelete(O& list) {
 	}
 
     while (selection != 'x' || selection != 'X') {
-        printTopInfo(listName.c_str(), list.getListAsString().c_str());
+        printTopInfo(listName.c_str(), list.getListAsString().c_str(), NULL);
 		std::cout << "1. First node\n"
 				<< "2. Last node\n"
 				<< "3. Before node\n"
@@ -178,7 +178,7 @@ void TUI::llDelete(O& list) {
 
 				case '3':
 					str = listName + " -> BEFORE NODE";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter node to delete before of: ";
 					std::cin >> input;
 					list.deleteBefore(input);
@@ -186,7 +186,7 @@ void TUI::llDelete(O& list) {
 
 				case '4':
 					str = listName + " -> AFTER NODE";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter node to delete after of: ";
 					std::cin >> input;
 					list.deleteAfter(input);
@@ -198,7 +198,7 @@ void TUI::llDelete(O& list) {
 
 				case '6':
 					str = listName + " -> NODE";
-					printTopInfo(str.c_str(), list.getListAsString().c_str());
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
 					std::cout << "Enter node to delete: ";
 					std::cin >> input;
 					list.deleteNode(input);
@@ -236,7 +236,7 @@ void TUI::newList(O& list) {
 		listName = "LINKED LIST -> DOUBLE -> NEW LIST";
 	}
 
-    printTopInfo(listName.c_str(), "-");
+    printTopInfo(listName.c_str(), "-", NULL);
     std::cout << "Initialize linked list with random nodes? [y/n]: ";
     std::cin >> initialize;
 
@@ -250,7 +250,7 @@ void TUI::newList(O& list) {
 	}
 
     if (initialize == 'y') {
-		printTopInfo(listName.c_str(), "-");
+		printTopInfo(listName.c_str(), "-", NULL);
 		std::cout << "How many nodes should we generate?: ";
     	std::cin >> size;
 

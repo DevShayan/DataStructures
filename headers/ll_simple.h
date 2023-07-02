@@ -26,6 +26,7 @@ class LLSimple {
         void insertAtLast(T data);
         void insertAfter(T node, T data);
         void insertBefore(T node, T data);
+        void insertAtMid(T node);
         T deleteFirst();
         T deleteLast();
         T deleteBefore(T node);

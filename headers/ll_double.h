@@ -24,6 +24,7 @@ class LLDouble {
         LLDouble(std::initializer_list<T> list);
         void insertAtFirst(T data);
         void insertAtLast(T data);
+        void insertAtMid(T data);
         void insertAfter(T node, T data);
         void insertBefore(T node, T data);
         T deleteFirst();

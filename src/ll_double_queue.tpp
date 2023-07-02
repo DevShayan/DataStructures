@@ -8,10 +8,10 @@ LLDoubleQue<T>::LLDoubleQue() {
 
 template<typename T>
 LLDoubleQue<T>::LLDoubleQue(std::initializer_list<T> list) {
-	numberOfElements = list.size();
 	for (const auto& element : list) {
 		enQueue(element);
 	}
+	numberOfElements = list.size();
 }
 
 template <typename T>

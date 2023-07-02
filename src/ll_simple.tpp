@@ -2,15 +2,14 @@
 #define LL_SIMPLE_TPP
 
 template<typename T>
-LLSimple<T>::LLSimple() {
-	//
-}
+LLSimple<T>::LLSimple() {}
 
 template<typename T>
 LLSimple<T>::LLSimple(std::initializer_list<T> list) {
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}
+	numberOfElements = list.size();
 }
 
 template<typename T>
@@ -74,6 +73,22 @@ void LLSimple<T>::insertBefore(T node, T data) {
 
 	if (tmp->next == NULL) 
 		throw "Node not found in linked list!";
+
+	insertAfter(tmp, data);
+}
+
+template<typename T>
+void LLSimple<T>::insertAtMid(T data) {
+	if (head == NULL) {
+		insertAtFirst(data);
+		return;
+	}
+
+	int mid = (numberOfElements/2) + 1;
+	Node* tmp = head;
+	for (int x=0; x<mid-2; x++) {
+		tmp = tmp->next;
+	}
 
 	insertAfter(tmp, data);
 }

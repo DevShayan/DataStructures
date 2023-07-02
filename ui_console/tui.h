@@ -14,6 +14,10 @@
 #include "../headers/ll_double_queue.h"
 #include "../headers/ll_double_stack.h"
 #include "../headers/tree_binary.h"
+#include "../headers/tree_binary_search.h"
+#include "../headers/avl.h"
+#include "../headers/heap_min.h"
+#include "../headers/heap_max.h"
 
 
 class TUI {
@@ -41,6 +45,10 @@ class TUI {
         LLDoubleQue<int> que_dll;
         LLDoubleStack<int> stack_dll;
         TreeBinary<int> tree;
+        TreeBinarySearch<int> treeBinSearch;
+        AVL<int> treeAvl;
+        HeapMin<int> heapMin;
+        HeapMax<int> heapMax;
 
         const std::string projectTitle = "  ___  ___   _     ___ ___  ___     _ ___ ___ _____ \n |   \\/ __| /_\\   | _ \\ _ \\/ _ \\ _ | | __/ __|_   _|\n | |) \\__ \\/ _ \\  |  _/   / (_) | || | _| (__  | |  \n |___/|___/_/ \\_\\ |_| |_|_\\\\___/ \\__/|___\\___| |_|  \n                                                    \n";
         const int lb = 0;
@@ -48,6 +56,15 @@ class TUI {
         int elements = 0;
         int input, input2;
         char selection = '|';
+
+        enum Traversals {
+            IN_ORDER,
+            PRE_ORDER,
+            POST_ORDER,
+            BREADTH_FIRST,
+        };
+
+        Traversals traversal = IN_ORDER;
 
     public:
         TUI();
@@ -64,6 +81,7 @@ class TUI {
         void multiSearch();
         void sort();
         void newArray();
+        void merging();
 
         // queue
         void queueMenu();
@@ -87,6 +105,26 @@ class TUI {
         // binary tree
         void treeMenu();
         void newTree();
+        void changeTraversal();
+
+        // binary search tree
+        void BSTMenu();
+        void newBST();
+        void changeTraversalBST();
+
+        // binary search tree
+        void AVLMenu();
+        void newAVL();
+        void changeTraversalAVL();
+
+        // heap
+        void heapMenu();
+        template <typename T> void heapX(T& heap);
+        template <typename T> void heapInsert(T& heap);
+        template <typename T> void heapSearch(T& heap);
+        template <typename T> void heapSingleSearch(T& heap);
+        template <typename T> void heapMultiSearch(T& heap);
+        template <typename T> void newHeap(T& heap);
 
         // mics
         void invalidInput(const char* input);

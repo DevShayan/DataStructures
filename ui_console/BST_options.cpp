@@ -1,19 +1,18 @@
 #include "tui.h"
 
-void TUI::treeMenu() {
-	// if (tree.getElementCount() == 0) {
-	// 	newTree();
-	// }
+void TUI::BSTMenu() {
+	if (treeBinSearch.getElementCount() == 0) {
+		newBST();
+	}
 
 	while (selection != 'x' || selection != 'X') {
-        std::string height = "Height: " + std::to_string(tree.getHeight());
         printTopInfo(
-            "BINARY TREE",
-            tree.getTreeAsString(traversal).c_str(),
-            height.c_str()
+            "BINARY SEARCH TREE",
+            treeBinSearch.getTreeAsString(traversal).c_str(),
+            NULL
         );
 
-		std::cout << "1. Create Tree\n"
+		std::cout << "1. Insert node\n"
 				<< "2. Delete\n"
 				<< "3. Change traverse method\n"
 				<< "4. New Tree\n\n"
@@ -23,16 +22,25 @@ void TUI::treeMenu() {
 
         switch (selection) {
             case '1':
-				printTopInfo("BINARY TREE -> CREATE TREE", "-", NULL);
-				tree.createTree();
+				printTopInfo("BINARY SEARCH TREE -> INSERT NODE", "-", NULL);
+				std::cout << "Enter value to insert: ";
+				std::cin >> input;
+
+				if (std::cin.fail()) {
+					std::cin.clear();
+					std::cin.ignore();
+					invalidInput("Invalid Input!");
+					break;
+				}
+				treeBinSearch.insert(input);
                 break;
 				
             case '2':
-                std::cout << "Enter value to delete from tree: ";
+                std::cout << "Enter value to delete from BS tree: ";
                 std::cin >> input;
 
                 try {
-                    tree.remove(input);
+                    treeBinSearch.remove(input);
                 } catch (const char* e) {
                     std::string error = std::string("Exception: ")+e;
                     invalidInput(error.c_str());
@@ -40,11 +48,11 @@ void TUI::treeMenu() {
                 break;
 
             case '3':
-                changeTraversal();
+                changeTraversalBST();
                 break;
 
             case '4':
-                newTree();
+                newBST();
                 break;
 
             case 'x': case 'X':
@@ -57,11 +65,11 @@ void TUI::treeMenu() {
     }
 }
 
-void TUI::changeTraversal() {
+void TUI::changeTraversalBST() {
 	while (selection != 'x' || selection != 'X') {
         printTopInfo (
-            "BINARY TREE -> CHANGE TRAVERSE METHOD",
-            tree.getTreeAsString(traversal).c_str(),
+            "BINARY SEARCH TREE -> CHANGE TRAVERSE METHOD",
+            treeBinSearch.getTreeAsString(traversal).c_str(),
             NULL
         );
 
@@ -100,14 +108,39 @@ void TUI::changeTraversal() {
 }
 
 
-void TUI::newTree() {
-    printTopInfo("BINARY TREE -> NEW TREE", "-", NULL);
+void TUI::newBST() {
+    char initialize = '|';
 
-	if (tree.getElementCount() != 0) {
-    	tree.deleteTree();
+    printTopInfo("BINARY SEARCH TREE -> NEW TREE", "-", NULL);
+    std::cout << "Initialize BS tree with random nodes? [y/n]: ";
+    std::cin >> initialize;
+
+    if (!std::isalpha(initialize)) {
+        invalidInput("Invalid input!");
+        return;
+    }
+
+	if (treeBinSearch.getElementCount() != 0) {
+    	treeBinSearch.deleteTree();
 	}
 
-    tree.createTree();
+    if (initialize == 'y') {
+		size = 0;
+		while (size > 20 || size < 1) {
+			printTopInfo("BINARY SEARCH TREE -> NEW TREE", "-", NULL);
+			std::cout << "How many nodes should we generate?: ";
+			std::cin >> size;
+
+			if (size < 1 || size > 20) {
+				invalidInput("Random nodes must be in the range 1-20.");
+			}
+		}
+
+        srand(time(0));
+        for (int x=0; x<size; x++) {
+            treeBinSearch.insert(rand()%100);
+        }
+    }
 }
 
 

@@ -2,7 +2,7 @@
 
 void TUI::queueMenu() {
 	while (selection != 'x' || selection != 'X') {
-		printTopInfo("QUEUE", que_arr.getQueueAsString().c_str(), NULL);
+		printTopInfo("QUEUE", "-", NULL);
 		std::cout << "1. on Array\n"
 				<< "2. on Linked List\n"
 				<< "3. on Double Linked List\n\n"

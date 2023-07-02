@@ -1,30 +1,43 @@
-/*
-This is a temporary file and must be removed in future.
-*/
-
-#ifndef TREE_BINARY_TPP
-#define TREE_BINARY_TPP
+#ifndef TREE_BINARY_SEARCH_TPP
+#define TREE_BINARY_SEARCH_TPP
 
 template <typename T>
-TreeBinary<T>::TreeBinary() {}
-
+TreeBinarySearch<T>::TreeBinarySearch() {}
 
 template <typename T>
-void TreeBinary<T>::createTree() {
-	root = new Node();
-	createTreeRec(root);
+TreeBinarySearch<T>::TreeBinarySearch(std::initializer_list<T> list) {
+	for (const T& element : list) {
+		insert(element);
+	}
+	numberOfElements = list.size();
+}
+
+template <typename T>
+void TreeBinarySearch<T>::insert(T data) {
+	Node* n = new Node();
+	n->data = data;
+	n->left = NULL;
+	n->right = NULL;
+
+	if (root == NULL) {
+		root = n;
+		return;
+	}
+
+	insertRecurrsive(root, n, data);
+	numberOfElements++;
 
 }
 
 template <typename T>
-T TreeBinary<T>::remove(T data) {
+T TreeBinarySearch<T>::remove(T data) {
 	removeRec(root, data);
 	return data;
 }
 
 
 template <typename T>
-void TreeBinary<T>::deleteTree() {
+void TreeBinarySearch<T>::deleteTree() {
 	deleteTreeRec(root);
 	root = NULL;
 }
@@ -32,26 +45,35 @@ void TreeBinary<T>::deleteTree() {
 // Getters and Setters
 
 template <typename T>
-std::string TreeBinary<T>::getTreeAsString(int order) {
+void TreeBinarySearch<T>::setTree(std::initializer_list<T> list) {
+	deleteTree();
+	for (const T& element : list) {
+		insert(element);
+	}
+	numberOfElements = list.size();
+}
+
+template <typename T>
+std::string TreeBinarySearch<T>::getTreeAsString(int order) {
 	//┌ ┘ └ ┐ ─
 	if (root == NULL) {
 		return "[ ]";
 	}
 
 	std::string treeAsString = "[";
-	if (order == TreeBinary<T>::IN_ORDER) {
+	if (order == TreeBinarySearch<T>::IN_ORDER) {
 		inOrderTraversal(root, treeAsString);
 		return treeAsString.erase(treeAsString.size() - 2)+"]";
 	}
-	else if (order == TreeBinary<T>::PRE_ORDER) {
+	else if (order == TreeBinarySearch<T>::PRE_ORDER) {
 		preOrderTraversal(root, treeAsString);
 		return treeAsString.erase(treeAsString.size() - 2)+"]";
 	}
-	else if (order == TreeBinary<T>::POST_ORDER) {
+	else if (order == TreeBinarySearch<T>::POST_ORDER) {
 		postOrderTraversal(root, treeAsString);
 		return treeAsString.erase(treeAsString.size() - 2)+"]";
 	}
-	else if (order == TreeBinary<T>::BREADTH_FIRST) {
+	else if (order == TreeBinarySearch<T>::BREADTH_FIRST) {
 		breadthFirstTraversal(treeAsString);
 		return treeAsString;
 	}
@@ -62,12 +84,12 @@ std::string TreeBinary<T>::getTreeAsString(int order) {
 }
 
 template <typename T>
-int TreeBinary<T>::getElementCount() {
+int TreeBinarySearch<T>::getElementCount() {
 	return numberOfElements;
 }
 
 template <typename T>
-int TreeBinary<T>::getMaxWidth() {
+int TreeBinarySearch<T>::getMaxWidth() {
 	if (root == NULL) return 0;
 
 	int heightL = 0;
@@ -94,52 +116,31 @@ int TreeBinary<T>::getMaxWidth() {
 }
 
 template <typename T>
-int TreeBinary<T>::getMinValue() {
+int TreeBinarySearch<T>::getMinValue() {
 	Node* tmp = getMinNode(root);
 	return tmp->data;
-}
-
-template <typename T>
-int TreeBinary<T>::getHeight() {
-	return getHeightOfNode(root);
 }
 
 // private
 
 template <typename T>
-void TreeBinary<T>::createTreeRec(Node* ptr) {
-	int item;
-	char opLeft, opRight;
-	std::cout << "Enter value to insert in tree: ";
-	std::cin >> item;
-
-	ptr->data = item;
-
-	std::cout << "Enter left child of " << ptr->data << "? <y/n> : ";
-	std::cin >> opLeft;
-
-	if (opLeft == 'y') {
-		ptr->left = new Node();
-		createTreeRec(ptr->left);
+void TreeBinarySearch<T>::insertRecurrsive(Node* ptr, Node* n, T data) {
+	if (data < ptr->data) {
+		if (ptr->left != NULL)
+			insertRecurrsive(ptr->left, n, data);
+		else
+			ptr->left = n;
 	}
 	else {
-		ptr->left == NULL;
-	}
-
-	std::cout << "Enter right child of " << ptr->data << "? <y/n> : ";
-	std::cin >> opRight;
-
-	if (opRight == 'y') {
-		ptr->right = new Node();
-		createTreeRec(ptr->right);
-	}
-	else {
-		ptr->right == NULL;
+		if (ptr->right != NULL)
+			insertRecurrsive(ptr->right, n, data);
+		else
+			ptr->right = n;
 	}
 }
 
 template <typename T>
-void TreeBinary<T>::inOrderTraversal(Node* ptr, std::string& treeAsString) {
+void TreeBinarySearch<T>::inOrderTraversal(Node* ptr, std::string& treeAsString) {
 	if (ptr->left != NULL) {
 		inOrderTraversal(ptr->left, treeAsString);
 	}
@@ -150,7 +151,7 @@ void TreeBinary<T>::inOrderTraversal(Node* ptr, std::string& treeAsString) {
 }
 
 template <typename T>
-void TreeBinary<T>::preOrderTraversal(Node* ptr, std::string& treeAsString) {
+void TreeBinarySearch<T>::preOrderTraversal(Node* ptr, std::string& treeAsString) {
 	treeAsString += std::to_string(ptr->data) + ", ";
 	if (ptr->left != NULL) {
 		preOrderTraversal(ptr->left, treeAsString);
@@ -161,7 +162,7 @@ void TreeBinary<T>::preOrderTraversal(Node* ptr, std::string& treeAsString) {
 }
 
 template <typename T>
-void TreeBinary<T>::postOrderTraversal(Node* ptr, std::string& treeAsString) {
+void TreeBinarySearch<T>::postOrderTraversal(Node* ptr, std::string& treeAsString) {
 	if (ptr->left != NULL) {
 		postOrderTraversal(ptr->left, treeAsString);
 	}
@@ -172,7 +173,7 @@ void TreeBinary<T>::postOrderTraversal(Node* ptr, std::string& treeAsString) {
 }
 
 template <typename T>
-std::string TreeBinary<T>::breadthFirstTraversal(std::string& treeAsString) {
+std::string TreeBinarySearch<T>::breadthFirstTraversal(std::string& treeAsString) {
 	LLQueue<Node*> que;
 	LLQueue<T> results;
 	Node* removed;
@@ -194,7 +195,7 @@ std::string TreeBinary<T>::breadthFirstTraversal(std::string& treeAsString) {
 }
 
 template <typename T>
-void TreeBinary<T>::deleteTreeRec(Node* ptr) {
+void TreeBinarySearch<T>::deleteTreeRec(Node* ptr) {
 	if (ptr == NULL) return;
 	
 	deleteTreeRec(ptr->left);
@@ -205,40 +206,43 @@ void TreeBinary<T>::deleteTreeRec(Node* ptr) {
 }
 
 template <typename T>
-typename TreeBinary<T>::Node* TreeBinary<T>::removeRec(Node* ptr, T data) {
+typename TreeBinarySearch<T>::Node* TreeBinarySearch<T>::removeRec(Node* ptr, T data) {
+	// some problem in this function
 	if (ptr == NULL)
 		return NULL;
 
-	ptr->left = removeRec(ptr->left, data);
-	ptr->right = removeRec(ptr->right, data);
-
-
-	if (ptr->data == data) {
-		if (ptr->right == NULL && ptr->left == NULL) {
-			if (ptr == root)
-				root = NULL;
-			delete ptr;
-			return NULL;
-		}
-		else if (ptr->right != NULL && ptr->left != NULL) {
-			Node* min = getMinNode(ptr->right);
-			ptr->data = min->data;
-			ptr->right = removeRec(ptr->right, ptr->data);
-			return ptr;
-		}
-		else {
-			Node* child = (ptr->left != NULL) ? ptr->left : ptr->right;
-			delete ptr;
-			return child;
-		}
-	}
-	else {
+	if (data < ptr->data) {
+		ptr->left = removeRec(ptr->left, data);
 		return ptr;
 	}
+	else if (data > ptr->data){
+		ptr->right = removeRec(ptr->right, data);
+		return ptr;
+	}
+	else if (ptr->right == NULL && ptr->left == NULL) {
+		if (ptr == root)
+			root = NULL;
+		delete ptr;
+		return NULL;
+	}
+	else if (ptr->right != NULL && ptr->left != NULL) {
+		Node* min = getMinNode(ptr->right);
+		ptr->data = min->data;
+		ptr->right = removeRec(ptr->right, ptr->data);
+		return ptr;
+	}
+	else {
+		Node* child = (ptr->left != NULL) ? ptr->left : ptr->right;
+		if (ptr == root)
+			root = NULL;
+		delete ptr;
+		return child;
+	}
+
 }
 
 template <typename T>
-typename TreeBinary<T>::Node* TreeBinary<T>::getMinNode(Node* ptr) {
+typename TreeBinarySearch<T>::Node* TreeBinarySearch<T>::getMinNode(Node* ptr) {
 	Node* min = NULL;
 
 	if (ptr->left != NULL) {
@@ -254,16 +258,6 @@ typename TreeBinary<T>::Node* TreeBinary<T>::getMinNode(Node* ptr) {
 	else {
 		return (ptr->data < min->data) ? ptr : min;
 	}
-}
-
-template <typename T>
-int TreeBinary<T>::getHeightOfNode(Node* ptr) {
-	if (ptr == NULL)
-		return 0;
-	else if (ptr->left == NULL && ptr->right == NULL)
-		return 1;
-
-	return std::max(getHeightOfNode(ptr->left), getHeightOfNode(ptr->right)) + 1;
 }
 
 #endif

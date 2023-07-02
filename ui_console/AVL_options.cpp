@@ -1,38 +1,47 @@
 #include "tui.h"
 
-void TUI::treeMenu() {
-	// if (tree.getElementCount() == 0) {
-	// 	newTree();
-	// }
+void TUI::AVLMenu() {
+	if (treeAvl.getElementCount() == 0) {
+		newAVL();
+	}
 
 	while (selection != 'x' || selection != 'X') {
-        std::string height = "Height: " + std::to_string(tree.getHeight());
+        std::string height = "Height: " + std::to_string(treeAvl.getHeight());
         printTopInfo(
-            "BINARY TREE",
-            tree.getTreeAsString(traversal).c_str(),
+            "AVL BINARY TREE",
+            treeAvl.getTreeAsString(traversal).c_str(),
             height.c_str()
         );
 
-		std::cout << "1. Create Tree\n"
+		std::cout << "1. Insert node\n"
 				<< "2. Delete\n"
 				<< "3. Change traverse method\n"
-				<< "4. New Tree\n\n"
+				<< "4. New AVL\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
 
         switch (selection) {
             case '1':
-				printTopInfo("BINARY TREE -> CREATE TREE", "-", NULL);
-				tree.createTree();
+				printTopInfo("AVL BINARY TREE -> INSERT NODE", "-", NULL);
+				std::cout << "Enter value to insert: ";
+				std::cin >> input;
+
+				if (std::cin.fail()) {
+					std::cin.clear();
+					std::cin.ignore();
+					invalidInput("Invalid Input!");
+					break;
+				}
+				treeAvl.insert(input);
                 break;
 				
             case '2':
-                std::cout << "Enter value to delete from tree: ";
+                std::cout << "Enter value to delete from BS tree: ";
                 std::cin >> input;
 
                 try {
-                    tree.remove(input);
+                    treeAvl.remove(input);
                 } catch (const char* e) {
                     std::string error = std::string("Exception: ")+e;
                     invalidInput(error.c_str());
@@ -40,11 +49,11 @@ void TUI::treeMenu() {
                 break;
 
             case '3':
-                changeTraversal();
+                changeTraversalAVL();
                 break;
 
             case '4':
-                newTree();
+                newAVL();
                 break;
 
             case 'x': case 'X':
@@ -57,11 +66,11 @@ void TUI::treeMenu() {
     }
 }
 
-void TUI::changeTraversal() {
+void TUI::changeTraversalAVL() {
 	while (selection != 'x' || selection != 'X') {
         printTopInfo (
-            "BINARY TREE -> CHANGE TRAVERSE METHOD",
-            tree.getTreeAsString(traversal).c_str(),
+            "AVL BINARY TREE -> CHANGE TRAVERSE METHOD",
+            treeAvl.getTreeAsString(traversal).c_str(),
             NULL
         );
 
@@ -100,14 +109,39 @@ void TUI::changeTraversal() {
 }
 
 
-void TUI::newTree() {
-    printTopInfo("BINARY TREE -> NEW TREE", "-", NULL);
+void TUI::newAVL() {
+    char initialize = '|';
 
-	if (tree.getElementCount() != 0) {
-    	tree.deleteTree();
+    printTopInfo("AVL BINARY TREE -> NEW TREE", "-", NULL);
+    std::cout << "Initialize AVL binary tree with random nodes? [y/n]: ";
+    std::cin >> initialize;
+
+    if (!std::isalpha(initialize)) {
+        invalidInput("Invalid input!");
+        return;
+    }
+
+	if (treeAvl.getElementCount() != 0) {
+    	treeAvl.deleteTree();
 	}
 
-    tree.createTree();
+    if (initialize == 'y') {
+		size = 0;
+		while (size > 20 || size < 1) {
+			printTopInfo("AVL BINARY TREE -> NEW TREE", "-", NULL);
+			std::cout << "How many nodes should we generate?: ";
+			std::cin >> size;
+
+			if (size < 1 || size > 20) {
+				invalidInput("Random nodes must be in the range 1-20.");
+			}
+		}
+
+        srand(time(0));
+        for (int x=0; x<size; x++) {
+            treeAvl.insert(rand()%100);
+        }
+    }
 }
 
 

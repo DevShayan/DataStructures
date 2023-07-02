@@ -18,8 +18,7 @@ ArraySimple<T>::ArraySimple(int size) {
 
 template <typename T>
 ArraySimple<T>::ArraySimple(std::initializer_list<T> list) {
-    numberOfElements = list.size();
-    arraySize = numberOfElements;
+    arraySize = numberOfElements = list.size();
     arr = new T[arraySize];
     int index = 0;
 
@@ -257,10 +256,7 @@ template <typename T>
 void ArraySimple<T>::mergeTwoArrays(ArraySimple arrA, ArraySimple arrB, bool sortAscending) {
     if (arrA.getSize() == 0 || arrB.getSize() == 0)
         throw "Array in parameter cannot be empty!";
-    if (arrA.getSize() + arrB.getSize() > arraySize)
-        throw "Size of parameter arrays exceeded from original array!";
 
-    clearArray();
     arrA.selectionSort(sortAscending);
     arrB.selectionSort(sortAscending);
 
@@ -268,6 +264,8 @@ void ArraySimple<T>::mergeTwoArrays(ArraySimple arrA, ArraySimple arrB, bool sor
     int indexB = lb;
     int indexArr = lb;
 
+    setArray(arrA.getSize() + arrB.getSize());
+    
     while (indexA < arrA.getElementCount()+lb && indexB < arrB.getElementCount()+lb) {
         if (arrA.getElementAt(indexA) < arrB.getElementAt(indexB)) {
             arr[indexArr] = arrA.getElementAt(indexA);

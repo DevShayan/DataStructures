@@ -3,9 +3,8 @@
 #include <ctime>
 
 void TUI::array() {
-    if (arr.getSize() == 0) {
+    if (arr.getSize() == 0)
         newArray();
-    }
 
     while (selection != 'x' || selection != 'X') {
         printTopInfo("ARRAY", arr.getArrayAsString().c_str(), NULL);
@@ -13,7 +12,8 @@ void TUI::array() {
                 << "2. Delete\n"
                 << "3. Search\n"
                 << "4. Sort\n"
-                << "5. New array\n\n"
+                << "5. Merging\n"
+                << "6. New array\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
                 << "Select an operation: ";
         std::cin >> selection;
@@ -32,6 +32,9 @@ void TUI::array() {
                 sort();
                 break;
             case '5':
+                merging();
+                break;
+            case '6':
                 newArray();
                 break;
             case 'x': case 'X':
@@ -281,5 +284,98 @@ void TUI::newArray() {
         }
     }
 }
+
+void TUI::merging() {
+    ArraySimple<int> arr1, arr2;
+
+    std::string arrays = "Array 1: " + arr1.getArrayAsString() + "\nArray 2: " + arr2.getArrayAsString();
+    printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+    std::cout << "Enter size of array 1: ";
+    std::cin >> size;
+
+    if (size < 1 && size > 100) {
+        std::cout << "Size must be in the range 1-100.\n";
+        return;
+    }
+
+    char initialize = '|';
+
+    printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+    std::cout << "Initialize array 1 with random values? [y/n]: ";
+    std::cin >> initialize;
+
+    if (!std::isalpha(initialize)) {
+        invalidInput("Invalid input!");
+        merging();
+        return;
+    }
+
+    arr1.setArray(size);
+    
+    if (initialize == 'y') {
+        srand(time(0));
+        for (int x=0; x<size; x++) {
+            arr1.insert(rand()%100, x);
+        }
+    }
+    else {
+        for (int x=0; x<size; x++) {
+            arrays = "Array 1: " + arr1.getArrayAsString() + "\nArray 2: " + arr2.getArrayAsString();
+            printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+            std::cout << "Enter value in array 1 at 'index " << x << "': ";
+            std::cin >> input;
+            arr1.insert(input, x);
+        }
+    }
+
+    arrays = "Array 1: " + arr1.getArrayAsString() + "\nArray 2: " + arr2.getArrayAsString();
+    printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+    std::cout << "Enter size of array 2: ";
+    std::cin >> size;
+
+    if (size < 1 && size > 100) {
+        std::cout << "Size must be in the range 1-100.\n";
+        return;
+    }
+
+    initialize = '|';
+
+    printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+    std::cout << "Initialize array 2 with random values? [y/n]: ";
+    std::cin >> initialize;
+
+    if (!std::isalpha(initialize)) {
+        invalidInput("Invalid input!");
+        merging();
+        return;
+    }
+
+    arr2.setArray(size);
+    
+    if (initialize == 'y') {
+        srand(time(0));
+        for (int x=0; x<size; x++) {
+            arr2.insert(rand()%100, x);
+        }
+    }
+    else {
+        for (int x=0; x<size; x++) {
+            arrays = "Array 1: " + arr1.getArrayAsString() + "\nArray 2: " + arr2.getArrayAsString();
+            printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+            std::cout << "Enter value in array 2 at 'index " << x << "': ";
+            std::cin >> input;
+            arr2.insert(input, x);
+        }
+    }
+
+    arr.mergeTwoArrays(arr1, arr2, true);
+
+    arrays = "Array 1: " + arr1.getArrayAsString() + "\nArray 2: " + arr2.getArrayAsString();
+    printTopInfo("ARRAY -> MERGING", arrays.c_str(), NULL);
+
+    std::cout << "Values merged in main array.\nPress any key to continue...\n";
+    system(pause);
+}
+
 
 

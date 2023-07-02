@@ -1,9 +1,5 @@
-/*
-This is a temporary file and must be removed in future.
-*/
-
-#ifndef TREE_BINARY_H
-#define TREE_BINARY_H
+#ifndef TREE_BINARY_SEARCH_H
+#define TREE_BINARY_SEARCH_H
 
 #include <iostream>
 #include <initializer_list>
@@ -11,7 +7,7 @@ This is a temporary file and must be removed in future.
 #include "ll_queue.h"
 
 template <typename T>
-class TreeBinary {
+class TreeBinarySearch {
     private:
         struct Node {
             T data;
@@ -21,16 +17,16 @@ class TreeBinary {
         int numberOfElements = 0;
         Node* root = NULL;
 
-        void createTreeRec(Node* ptr);
+        void insertRecurrsive(Node* ptr, Node* n, T data);
         void inOrderTraversal(Node* ptr, std::string& treeAsString);
         void preOrderTraversal(Node* ptr, std::string& treeAsString);
         void postOrderTraversal(Node* ptr, std::string& treeAsString);
         std::string breadthFirstTraversal(std::string& treeAsString);
 
+        void print2DTree(Node* ptr, int spaces);
         void deleteTreeRec(Node* ptr);
         Node* removeRec(Node* ptr, T data);
         Node* getMinNode(Node* ptr);
-        int getHeightOfNode(Node* ptr);
 
     public:
         static const int IN_ORDER = 0;
@@ -38,22 +34,21 @@ class TreeBinary {
         static const int POST_ORDER = 2;
         static const int BREADTH_FIRST = 3;
         
-        TreeBinary();
-        void createTree();
+        TreeBinarySearch();
+        TreeBinarySearch(std::initializer_list<T> list);
+        void insert(T data);
         T remove(T data);
         void deleteTree();
 
         // getters and setters
+        void setTree(std::initializer_list<T> list);
         std::string getTreeAsString(int order);
         int getElementCount();
         int getMaxWidth();
         int getMinValue();
-        int getHeight();
 
-        // ai
-        void print2D();
 };
 
-#include "../src/tree_binary.tpp"
+#include "../src/tree_binary_search.tpp"
 
 #endif

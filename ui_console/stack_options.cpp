@@ -52,8 +52,8 @@ void TUI::stack(T& stack) {
 
     while (selection != 'x' || selection != 'X') {
 		printTopInfo(stackHeading.c_str(), stack.getStackAsString().c_str(), NULL);
-        std::cout << "1. Insert\n"
-                << "2. Delete\n"
+        std::cout << "1. Push\n"
+                << "2. Pop\n"
                 << "3. New Stack\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
                 << "Select an operation: ";
@@ -62,9 +62,9 @@ void TUI::stack(T& stack) {
         try {
             switch (selection) {
                 case '1':
-                    str = stackHeading + " -> INSERT";
+                    str = stackHeading + " -> PUSH";
                     printTopInfo(str.c_str(), stack.getStackAsString().c_str(), NULL);
-                    std::cout << "Enter value to insert: ";
+                    std::cout << "Enter value to push: ";
                     std::cin >> input;
                     stack.push(input);
                     break;

@@ -8,10 +8,10 @@ LLDoubleStack<T>::LLDoubleStack() {
 
 template <typename T>
 LLDoubleStack<T>::LLDoubleStack(std::initializer_list<T> list) {
-	numberOfElements = list.size();
 	for (const auto& element : list) {
 		push(element);
 	}
+	numberOfElements = list.size();
 }
 
 template <typename T>

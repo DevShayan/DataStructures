@@ -8,10 +8,10 @@ LLDouble<T>::LLDouble() {
 
 template<typename T>
 LLDouble<T>::LLDouble(std::initializer_list<T> list) {
-	numberOfElements = list.size();
 	for (const auto& element : list) {
 		insertAtLast(element);
 	}
+	numberOfElements = list.size();
 }
 
 template<typename T>
@@ -48,6 +48,22 @@ void LLDouble<T>::insertAtLast(T data) {
 		tmp->next = n;
 	}
 	numberOfElements++;
+}
+
+template<typename T>
+void LLDouble<T>::insertAtMid(T data) {
+	if (head == NULL) {
+		insertAtFirst(data);
+		return;
+	}
+
+	int mid = (numberOfElements/2) + 1;
+	Node* tmp = head;
+	for (int x=0; x<mid-2; x++) {
+		tmp = tmp->next;
+	}
+
+	insertAfter(tmp, data);
 }
 
 template<typename T>

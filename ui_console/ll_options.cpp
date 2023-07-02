@@ -25,8 +25,8 @@ void TUI::linkedListMenu() {
     }
 }
 
-template <typename O>
-void TUI::linkedList(O& list) {
+template <typename T>
+void TUI::linkedList(T& list) {
 	if (list.getElementCount() == 0) {
 		newList(list);
 	}
@@ -67,8 +67,8 @@ void TUI::linkedList(O& list) {
     }
 }
 
-template <typename O>
-void TUI::llInsert(O& list) {
+template <typename T>
+void TUI::llInsert(T& list) {
 	std::string listName, str;
 
 	if (typeid(list) == typeid(ll)) {
@@ -83,7 +83,8 @@ void TUI::llInsert(O& list) {
 		std::cout << "1. At first\n"
 				<< "2. At last\n"
 				<< "3. Before node\n"
-				<< "4. After node\n\n"
+				<< "4. After node\n"
+				<< "5. At Mid\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
@@ -126,6 +127,14 @@ void TUI::llInsert(O& list) {
 					list.insertAfter(input, input2);
 					break;
 
+				case '5':
+					str = listName + " -> AT MID";
+					printTopInfo(str.c_str(), list.getListAsString().c_str(), NULL);
+					std::cout << "Enter value to insert: ";
+					std::cin >> input;
+					list.insertAtMid(input);
+					break;
+
 				case 'x': case 'X':
 					system(clear);
 					return;
@@ -142,8 +151,8 @@ void TUI::llInsert(O& list) {
 
 }
 
-template <typename O>
-void TUI::llDelete(O& list) {
+template <typename T>
+void TUI::llDelete(T& list) {
 	std::string listName, str;
 
 	if (typeid(list) == typeid(ll)) {
@@ -224,8 +233,8 @@ void TUI::llDelete(O& list) {
 
 }
 
-template <typename O>
-void TUI::newList(O& list) {
+template <typename T>
+void TUI::newList(T& list) {
     char initialize = '|';
 	std::string listName;
 

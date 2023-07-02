@@ -27,6 +27,7 @@ class TreeBinarySearch {
         void deleteTreeRec(Node* ptr);
         Node* removeRec(Node* ptr, T data);
         Node* getMinNode(Node* ptr);
+        bool singleSearch(Node* ptr, T data);
 
     public:
         static const int IN_ORDER = 0;
@@ -39,6 +40,7 @@ class TreeBinarySearch {
         void insert(T data);
         T remove(T data);
         void deleteTree();
+        bool singleSearchFor(T data);
 
         // getters and setters
         void setTree(std::initializer_list<T> list);

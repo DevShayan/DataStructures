@@ -97,25 +97,29 @@ class TUI {
 
         // linked list
         void linkedListMenu();
-        template <typename O> void linkedList(O& list);
-        template <typename O> void llInsert(O& list);
-        template <typename O> void llDelete(O& list);
-        template <typename O> void newList(O& list);
+        template <typename T> void linkedList(T& list);
+        template <typename T> void llInsert(T& list);
+        template <typename T> void llDelete(T& list);
+        template <typename T> void llSearch(T& list);
+        template <typename T> void newList(T& list);
 
         // binary tree
         void treeMenu();
         void newTree();
         void changeTraversal();
+        void treeSearch();
 
         // binary search tree
         void BSTMenu();
         void newBST();
         void changeTraversalBST();
+        void BSTSearch();
 
-        // binary search tree
+        // AVL tree
         void AVLMenu();
         void newAVL();
         void changeTraversalAVL();
+        void AVLSearch();
 
         // heap
         void heapMenu();

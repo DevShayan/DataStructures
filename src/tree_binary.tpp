@@ -18,6 +18,8 @@ void TreeBinary<T>::createTree() {
 
 template <typename T>
 T TreeBinary<T>::remove(T data) {
+	if (root == NULL)
+		throw "Cannot delete from empty tree!";
 	removeRec(root, data);
 	return data;
 }
@@ -27,6 +29,22 @@ template <typename T>
 void TreeBinary<T>::deleteTree() {
 	deleteTreeRec(root);
 	root = NULL;
+}
+
+template <typename T>
+bool TreeBinary<T>::singleSearchFor(T data) {
+	return singleSearch(root, data);
+}
+
+template <typename T>
+bool TreeBinary<T>::singleSearch(Node* ptr, T data) {
+	if (ptr == NULL)
+		return false;
+
+	if (ptr->data == data)
+		return true;
+
+	return singleSearch(ptr->left, data) || singleSearch(ptr->right, data);
 }
 
 // Getters and Setters

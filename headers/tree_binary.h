@@ -31,6 +31,7 @@ class TreeBinary {
         Node* removeRec(Node* ptr, T data);
         Node* getMinNode(Node* ptr);
         int getHeightOfNode(Node* ptr);
+        bool singleSearch(Node* ptr, T data);
 
     public:
         static const int IN_ORDER = 0;
@@ -42,6 +43,7 @@ class TreeBinary {
         void createTree();
         T remove(T data);
         void deleteTree();
+        bool singleSearchFor(T data);
 
         // getters and setters
         std::string getTreeAsString(int order);
@@ -50,8 +52,6 @@ class TreeBinary {
         int getMinValue();
         int getHeight();
 
-        // ai
-        void print2D();
 };
 
 #include "../src/tree_binary.tpp"

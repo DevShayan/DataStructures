@@ -15,8 +15,9 @@ void TUI::AVLMenu() {
 
 		std::cout << "1. Insert node\n"
 				<< "2. Delete\n"
-				<< "3. Change traverse method\n"
-				<< "4. New AVL\n\n"
+				<< "3. Search\n"
+				<< "4. Change traverse method\n"
+				<< "5. New AVL\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
@@ -49,10 +50,14 @@ void TUI::AVLMenu() {
                 break;
 
             case '3':
-                changeTraversalAVL();
+                AVLSearch();
                 break;
 
             case '4':
+                changeTraversalAVL();
+                break;
+
+            case '5':
                 newAVL();
                 break;
 
@@ -129,6 +134,7 @@ void TUI::newAVL() {
 		size = 0;
 		while (size > 20 || size < 1) {
 			printTopInfo("AVL BINARY TREE -> NEW TREE", "-", NULL);
+            std::cout << "size: " << size;
 			std::cout << "How many nodes should we generate?: ";
 			std::cin >> size;
 
@@ -142,6 +148,25 @@ void TUI::newAVL() {
             treeAvl.insert(rand()%100);
         }
     }
+}
+
+void TUI::AVLSearch() {
+    printTopInfo("AVL BINARY TREE -> SEARCH", treeAvl.getTreeAsString(traversal).c_str(), NULL);
+    std::cout << "Enter value to search in AVL binary search tree: ";
+    std::cin >> input;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore();
+        invalidInput("Invalid Input!");
+        return;
+    }
+
+    if (treeAvl.singleSearchFor(input))
+        std::cout << input << " found in AVL binary search tree.\n";
+    else
+        std::cout << input << " not found in AVL binary search tree.\n";
+    system(pause);
 }
 
 

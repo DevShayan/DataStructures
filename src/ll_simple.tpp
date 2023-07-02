@@ -223,6 +223,35 @@ void LLSimple<T>::deleteList() {
 	numberOfElements = 0;
 }
 
+template<typename T>
+bool LLSimple<T>::singleSearchFor(T data) {
+	if (head == NULL)
+		throw "List is empty!";
+
+	Node* tmp = head;
+
+	while (tmp != NULL && tmp->data != data) {
+		tmp = tmp->next;
+	}
+	return tmp != NULL;
+}
+
+template<typename T>
+int LLSimple<T>::multiSearchFor(T data) {
+	if (head == NULL)
+		throw "List is empty!";
+
+	Node* tmp = head;
+	int count = 0;
+
+	while (tmp != NULL) {
+		if (tmp->data == data)
+			count++;
+		tmp = tmp->next;
+	}
+	return count;
+}
+
 // Getters and Setters
 
 template<typename T>

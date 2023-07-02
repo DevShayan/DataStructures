@@ -43,7 +43,8 @@ void TUI::linkedList(T& list) {
         printTopInfo(listName.c_str(), list.getListAsString().c_str(), NULL);
 		std::cout << "1. Insert\n"
 				<< "2. Delete\n"
-				<< "3. New list\n\n"
+				<< "3. Search\n"
+				<< "4. New list\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
@@ -56,6 +57,9 @@ void TUI::linkedList(T& list) {
                 llDelete(list);
                 break;
             case '3':
+                llSearch(list);
+                break;
+            case '4':
                 newList(list);
                 break;
             case 'x': case 'X':
@@ -275,6 +279,69 @@ void TUI::newList(T& list) {
     }
 }
 
+template <typename T>
+void TUI::llSearch(T& list) {
+	std::string headingName, headingName2;
+
+	if (typeid(list) == typeid(ll))
+		headingName = "LINKED LIST -> SINLGE -> SEARCH";
+	else if (typeid(list) == typeid(dll))
+		headingName = "LINKED LIST -> DOUBLE -> SEARCH";
+
+    while (selection != 'x' || selection != 'X') {
+        printTopInfo(headingName.c_str(), list.getListAsString().c_str(), NULL);
+		std::cout << "1. Single Search\n"
+				<< "2. Multi Search\n\n"
+                << magenta << "X. Back\n\n" << clearTextColor
+				<< "Select an operation: ";
+        std::cin >> selection;
+
+		if (selection == '1' || selection == '2') {
+			if (selection == '1' && typeid(list) == typeid(ll))
+				headingName2 = "LINKED LIST -> SINGLE -> SEARCH -> SINGLE SEARCH";
+
+			else if (selection == '1' && typeid(list) == typeid(dll))
+				headingName2 = "LINKED LIST -> DOUBLE -> SEARCH -> SINGLE SEARCH";
+
+			else if (selection == '2' && typeid(list) == typeid(ll))
+				headingName2 = "LINKED LIST -> SINGLE -> SEARCH -> MULTI SEARCH";
+
+			else if (selection == '2' && typeid(list) == typeid(dll))
+				headingName2 = "LINKED LIST -> DOUBLE -> SEARCH -> MULTI SEARCH";
+
+			printTopInfo(headingName2.c_str(), list.getListAsString().c_str(), NULL);
+			std::cout << "Enter value to search in list: ";
+			std::cin >> input;
+
+			if (std::cin.fail()) {
+				std::cin.clear();
+				std::cin.ignore();
+				invalidInput("Invalid Input!");
+				return;
+			}
+		}
+
+        switch (selection) {
+            case '1':
+				if (list.singleSearchFor(input))
+					std::cout << input << " found in list.\n";
+				else
+					std::cout << input << " not found in list.\n";
+				break;
+
+            case '2':
+				std::cout << input << " found '" << list.multiSearchFor(input) << " times' in list.\n";
+                break;
+
+            case 'x': case 'X':
+                return;
+
+            default:
+                invalidInput("Invalid selection!");
+        }
+		system(pause);
+    }
+}
 
 
 

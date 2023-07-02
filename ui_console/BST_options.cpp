@@ -14,8 +14,9 @@ void TUI::BSTMenu() {
 
 		std::cout << "1. Insert node\n"
 				<< "2. Delete\n"
-				<< "3. Change traverse method\n"
-				<< "4. New Tree\n\n"
+				<< "3. Search\n"
+				<< "4. Change traverse method\n"
+				<< "5. New Tree\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
@@ -48,10 +49,14 @@ void TUI::BSTMenu() {
                 break;
 
             case '3':
-                changeTraversalBST();
+                BSTSearch();
                 break;
 
             case '4':
+                changeTraversalBST();
+                break;
+
+            case '5':
                 newBST();
                 break;
 
@@ -141,6 +146,25 @@ void TUI::newBST() {
             treeBinSearch.insert(rand()%100);
         }
     }
+}
+
+void TUI::BSTSearch() {
+    printTopInfo("BINARY SEARCH TREE -> SEARCH", treeBinSearch.getTreeAsString(traversal).c_str(), NULL);
+    std::cout << "Enter value to search in binary search tree: ";
+    std::cin >> input;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore();
+        invalidInput("Invalid Input!");
+        return;
+    }
+
+    if (treeBinSearch.singleSearchFor(input))
+        std::cout << input << " found in binary search tree.\n";
+    else
+        std::cout << input << " not found in binary search tree.\n";
+    system(pause);
 }
 
 

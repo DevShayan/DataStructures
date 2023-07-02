@@ -27,13 +27,15 @@ class LLSimple {
         void insertAfter(T node, T data);
         void insertBefore(T node, T data);
         void insertAtMid(T node);
+        void deleteList();
         T deleteFirst();
         T deleteLast();
         T deleteBefore(T node);
         T deleteAfter(T node);
         T deleteMid();
         T deleteNode(T node);
-        void deleteList();
+        bool singleSearchFor(T data);
+        int multiSearchFor(T data);
 
         // Getters and Setters
         void setList(std::initializer_list<T> list);

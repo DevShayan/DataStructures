@@ -15,8 +15,9 @@ void TUI::treeMenu() {
 
 		std::cout << "1. Create Tree\n"
 				<< "2. Delete\n"
-				<< "3. Change traverse method\n"
-				<< "4. New Tree\n\n"
+				<< "3. Search\n"
+				<< "4. Change traverse method\n"
+				<< "5. New Tree\n\n"
                 << magenta << "X. Back\n\n" << clearTextColor
 				<< "Select an operation: ";
         std::cin >> selection;
@@ -40,10 +41,14 @@ void TUI::treeMenu() {
                 break;
 
             case '3':
-                changeTraversal();
+                treeSearch();
                 break;
 
             case '4':
+                changeTraversal();
+                break;
+
+            case '5':
                 newTree();
                 break;
 
@@ -110,6 +115,24 @@ void TUI::newTree() {
     tree.createTree();
 }
 
+void TUI::treeSearch() {
+    printTopInfo("BINARY TREE -> SEARCH", tree.getTreeAsString(traversal).c_str(), NULL);
+    std::cout << "Enter value to search in binary tree: ";
+    std::cin >> input;
+
+    if (std::cin.fail()) {
+        std::cin.clear();
+        std::cin.ignore();
+        invalidInput("Invalid Input!");
+        return;
+    }
+
+    if (tree.singleSearchFor(input))
+        std::cout << input << " found in binary tree.\n";
+    else
+        std::cout << input << " not found in binary tree.\n";
+    system(pause);
+}
 
 
 

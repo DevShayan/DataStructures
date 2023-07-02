@@ -34,6 +34,8 @@ class LLDouble {
         T deleteMid();
         T deleteNode(T node);
         void deleteList();
+        bool singleSearchFor(T data);
+        int multiSearchFor(T data);
 
         // Getters and Setters
         void setList(std::initializer_list<T> list);

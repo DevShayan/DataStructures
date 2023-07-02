@@ -44,6 +44,28 @@ void AVL<T>::deleteTree() {
 	root = NULL;
 }
 
+template <typename T>
+bool AVL<T>::singleSearchFor(T data) {
+	return singleSearch(root, data);
+}
+
+template <typename T>
+bool AVL<T>::singleSearch(Node* ptr, T data) {
+	if (ptr == NULL)
+		return false;
+
+	if (ptr->data == data)
+		return true;
+
+	// if (data < ptr->data)
+	// 	return singleSearch(ptr->left, data);
+	// if (data > ptr->data)
+	// 	return singleSearch(ptr->right, data);
+
+	//TODO: temporary fix:
+	return singleSearch(ptr->left, data) || singleSearch(ptr->right, data);
+}
+
 // Getters and Setters
 
 template <typename T>
@@ -291,7 +313,8 @@ void AVL<T>::balance() {
 			rotateRight();
 		}
 		else {
-			rotateLeft();
+			if (root->right != NULL)
+				rotateLeft();
 			rotateRight();
 		}
 	}
@@ -300,7 +323,8 @@ void AVL<T>::balance() {
 			rotateLeft();
 		}
 		else {
-			rotateRight();
+			if (root->left != NULL)
+				rotateRight();
 			rotateLeft();
 		}
 	}

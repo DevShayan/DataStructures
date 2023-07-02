@@ -42,6 +42,28 @@ void TreeBinarySearch<T>::deleteTree() {
 	root = NULL;
 }
 
+template <typename T>
+bool TreeBinarySearch<T>::singleSearchFor(T data) {
+	return singleSearch(root, data);
+}
+
+template <typename T>
+bool TreeBinarySearch<T>::singleSearch(Node* ptr, T data) {
+	if (ptr == NULL)
+		return false;
+
+	if (ptr->data == data)
+		return true;
+
+	// if (data < ptr->data)
+	// 	return singleSearch(ptr->left, data);
+	// if (data > ptr->data)
+	// 	return singleSearch(ptr->right, data);
+
+	//TODO: temporary fix:
+	return singleSearch(ptr->left, data) || singleSearch(ptr->right, data);
+}
+
 // Getters and Setters
 
 template <typename T>

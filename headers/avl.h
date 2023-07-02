@@ -32,6 +32,7 @@ class AVL {
         void balance();
         void rotateLeft();
         void rotateRight();
+        bool singleSearch(Node* ptr, T data);
 
     public:
         static const int IN_ORDER = 0;
@@ -44,6 +45,7 @@ class AVL {
         void insert(T data);
         T remove(T data);
         void deleteTree();
+        bool singleSearchFor(T data);
 
         // getters and setters
         void setTree(std::initializer_list<T> list);

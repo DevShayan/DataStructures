@@ -230,6 +230,35 @@ void LLDouble<T>::deleteList() {
 	numberOfElements = 0;
 }
 
+template<typename T>
+bool LLDouble<T>::singleSearchFor(T data) {
+	if (head == NULL)
+		throw "List is empty!";
+
+	Node* tmp = head;
+
+	while (tmp != NULL && tmp->data != data) {
+		tmp = tmp->next;
+	}
+	return tmp != NULL;
+}
+
+template<typename T>
+int LLDouble<T>::multiSearchFor(T data) {
+	if (head == NULL)
+		throw "List is empty!";
+
+	Node* tmp = head;
+	int count = 0;
+
+	while (tmp != NULL) {
+		if (tmp->data == data)
+			count++;
+		tmp = tmp->next;
+	}
+	return count;
+}
+
 // Getters and Setters
 
 template<typename T>
@@ -280,7 +309,8 @@ void LLDouble<T>::insertAfter(Node* ptr, T data) {
 	n->next = ptr->next;
 	n->prev = ptr;
 	ptr->next = n;
-	n->next->prev = n;
+	if (n->next != NULL)
+		n->next->prev = n;
 	numberOfElements++;
 }
 
